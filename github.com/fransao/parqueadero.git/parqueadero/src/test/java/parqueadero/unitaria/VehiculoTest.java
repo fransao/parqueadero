@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import parqueadero.dominio.Vehiculo;
 import testdatabuilder.VehiculoTestDataBuilder;
 
 public class VehiculoTest {
@@ -12,7 +13,12 @@ public class VehiculoTest {
     
     @Test
     public void crearVehiculoTest() {
+        // arrange
         VehiculoTestDataBuilder vehiculoTestDataBuilder = new VehiculoTestDataBuilder().conPlaca(PLACA);
+        // act
+        Vehiculo vehiculo = vehiculoTestDataBuilder.build();
+        // assert
+        assertEquals(PLACA, vehiculo.getPlaca());
     }
 
 }

@@ -4,12 +4,10 @@ import parqueadero.dominio.Vehiculo;
 
 public class VehiculoTestDataBuilder {
 
-    private static final String PLACA = "ABC123";
-    
     private String placa;
     
-    public VehiculoTestDataBuilder () {
-        placa = PLACA;
+    public VehiculoTestDataBuilder (String placa) {
+        this.placa = placa;
     }
     
     public VehiculoTestDataBuilder conPlaca(String placa) {

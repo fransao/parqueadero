@@ -14,9 +14,11 @@ public class VehiculoTest {
     @Test
     public void crearVehiculoTest() {
         // arrange
-        VehiculoTestDataBuilder vehiculoTestDataBuilder = new VehiculoTestDataBuilder().conPlaca(PLACA);
+        VehiculoTestDataBuilder vehiculoTestDataBuilder = new VehiculoTestDataBuilder(PLACA);
+        
         // act
         Vehiculo vehiculo = vehiculoTestDataBuilder.build();
+        
         // assert
         assertEquals(PLACA, vehiculo.getPlaca());
     }

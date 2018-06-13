@@ -2,7 +2,7 @@ package parqueadero.dominio;
 
 public class Vehiculo {
 
-    String placa;
+    private String placa;
     
     public Vehiculo (String placa) {
         this.placa = placa;

@@ -8,7 +8,8 @@ public class MotoTestDataBuilder extends VehiculoTestDataBuilder {
     
     private int cilindraje;
     
-    public MotoTestDataBuilder () {
+    public MotoTestDataBuilder (String placa) {
+        super (placa);
         cilindraje = CILINDRAJE;
     }
     
@@ -20,4 +21,5 @@ public class MotoTestDataBuilder extends VehiculoTestDataBuilder {
     public Moto build() {
         return new Moto (super.build().getPlaca(), cilindraje);
     }
+
 }

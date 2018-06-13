@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="parqueadero.unitaria.VehiculoTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2018-06-12T16:51:38" hostname="FRANCISCO-SALAZAR" time="0.002">
+<testsuite name="parqueadero.unitaria.VehiculoTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2018-06-13T14:00:24" hostname="FRANCISCO-SALAZAR" time="0.0">
   <properties/>
-  <testcase name="crearVehiculoTest" classname="parqueadero.unitaria.VehiculoTest" time="0.002"/>
+  <testcase name="crearVehiculoTest" classname="parqueadero.unitaria.VehiculoTest" time="0.0"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

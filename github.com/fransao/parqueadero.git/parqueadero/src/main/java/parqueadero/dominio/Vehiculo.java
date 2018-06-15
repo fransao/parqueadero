@@ -1,11 +1,15 @@
 package parqueadero.dominio;
 
+import parqueadero.enumerado.EnumTipoVehiculo;
+
 public class Vehiculo {
 
     private String placa;
+    private EnumTipoVehiculo tipoVehiculo;
     
-    public Vehiculo (String placa) {
+    public Vehiculo (String placa, EnumTipoVehiculo tipoVehiculo) {
         this.placa = placa;
+        this.tipoVehiculo = tipoVehiculo;
     }
     
     public String getPlaca() {
@@ -14,5 +18,13 @@ public class Vehiculo {
     
     public void setPlaca(String placa) {
         this.placa = placa;
+    }
+
+    public EnumTipoVehiculo getTipoVehiculo() {
+        return tipoVehiculo;
+    }
+
+    public void setTipoVehiculo(EnumTipoVehiculo tipoVehiculo) {
+        this.tipoVehiculo = tipoVehiculo;
     }
 }

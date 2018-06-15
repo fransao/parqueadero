@@ -5,14 +5,18 @@ import java.util.Date;
 
 import parqueadero.enumerado.EnumTipoVehiculo;
 import parqueadero.exception.ParqueaderoException;
-import parqueadero.repositorio.RepositorioVehiculo;
+import parqueadero.servicio.IGestionVehiculoServicio;
 
 public class Vigilante {
 
-    private static final String MSJ_PARQUEADERO_VEHICULO  = "El parqueadero solo permite ingrear Carros y Motos";
-    public static final String MSJ_VEHICULO_NO_AUTORIZADO = "El vehiculo no esta autorizado para ingresar el domingo ni el lunes";
+    private static final String MSJ_PARQUEADERO_VEHICULO   = "El parqueadero solo permite ingresar Carros y Motos";
+    public static final  String MSJ_VEHICULO_NO_AUTORIZADO = "El vehiculo no esta autorizado para ingresar (puede ingresar el domingo o lunes)";
     
-    private RepositorioVehiculo repositorioVehiculo;
+    private IGestionVehiculoServicio gestionVehiculoServicio;
+    
+    public Vigilante (IGestionVehiculoServicio gestionVehiculoServicio) {
+        this.gestionVehiculoServicio = gestionVehiculoServicio;
+    }
     
     public void ingresarVehiculo(Vehiculo vehiculo, Date fechaIngreso) {
         
@@ -47,16 +51,17 @@ public class Vigilante {
     }
 
     private void ingresarMoto (Moto moto, Date fechaIngreso) {
-        IngresoVehiculo ingresoVehiculo = new IngresoVehiculo(EnumTipoVehiculo.MOTO, moto, fechaIngreso);
-        
+        GestionVehiculo ingresoVehiculo = new GestionVehiculo(EnumTipoVehiculo.MOTO, moto, fechaIngreso);
+        gestionVehiculoServicio.ingresarVehiculo(ingresoVehiculo);
     }
     
     private void ingresarCarro(Carro carro, Date fechaIngreso) {
-        
+        GestionVehiculo ingresoVehiculo = new GestionVehiculo(EnumTipoVehiculo.CARRO, carro, fechaIngreso);
+        gestionVehiculoServicio.ingresarVehiculo(ingresoVehiculo);
     }
 
-    public boolean estaIngresado(Moto moto) {
-        // TODO Auto-generated method stub
-        return false;
+    public boolean estaVehiculoIngresado(Moto moto) {
+        return gestionVehiculoServicio.estaVehiculoIngresado(moto) != null;
     }
+    
 }

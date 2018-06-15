@@ -4,8 +4,8 @@ public class Moto extends Vehiculo {
 
     private int cilindraje;
     
-    public Moto(String placa, int cilindraje) {
-        super(placa);
+    public Moto(Vehiculo vehiculo, int cilindraje) {
+        super(vehiculo.getPlaca(), vehiculo.getTipoVehiculo());
         this.cilindraje = cilindraje;
     }
     
@@ -16,4 +16,5 @@ public class Moto extends Vehiculo {
     public void setCilindraje(int cilindraje) {
         this.cilindraje = cilindraje;
     }
+
 }

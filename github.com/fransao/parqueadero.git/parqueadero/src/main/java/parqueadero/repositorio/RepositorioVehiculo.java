@@ -1,12 +1,14 @@
 package parqueadero.repositorio;
 
+import org.springframework.stereotype.Repository;
+
 import parqueadero.dominio.Vehiculo;
 
-public interface RepositorioVehiculo {
+@Repository
+public class RepositorioVehiculo {
 
-    /**
-     * Permite ingresar un vehiculo al parqueadero.
-     */
-    void registrarPlacaVehiculo(Vehiculo vehiculo);
-    
+    public void registrarPlacaVehiculo(Vehiculo vehiculo) {
+        // TODO Auto-generated method stub
+        
+    }
 }

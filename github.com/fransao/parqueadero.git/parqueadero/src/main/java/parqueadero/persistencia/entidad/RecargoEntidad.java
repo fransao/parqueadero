@@ -1,13 +1,17 @@
 package parqueadero.persistencia.entidad;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 
 @Entity (name="Recargo")
-@NamedQuery (name="Recargo.obtenerRecargo", query="SELECT recargo FROM Recargo recargo WHERE recargo.cilindraje = : cilindraje")
-public class RecargoEntidad {
+@NamedQuery (name="Recargo.obtenerRecargo", query="SELECT recargo FROM Recargo recargo WHERE recargo.cilindraje = :cilindraje")
+public class RecargoEntidad implements Serializable {
+
+    private static final long serialVersionUID = 6682843763585086568L;
 
     @Id
     private Integer cilindraje;

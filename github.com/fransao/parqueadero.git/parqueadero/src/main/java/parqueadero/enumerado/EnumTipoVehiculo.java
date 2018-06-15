@@ -1,5 +1,7 @@
 package parqueadero.enumerado;
 
+import java.util.stream.Stream;
+
 public enum EnumTipoVehiculo {
 
     MOTO(1), CARRO(2);
@@ -15,12 +17,6 @@ public enum EnumTipoVehiculo {
     }
     
     public static EnumTipoVehiculo getEnumTipoVehiculo(int tipoVehiculo) {
-        for (EnumTipoVehiculo enumTipoVehiculo: EnumTipoVehiculo.values()) {
-            if (enumTipoVehiculo.getTipoVehiculo() == tipoVehiculo) {
-                return enumTipoVehiculo;
-            }
-        }
-        
-        return null;
+        return Stream.of(EnumTipoVehiculo.values()).filter(e -> e.getTipoVehiculo() == tipoVehiculo).findFirst().orElse(null);
     }
 }

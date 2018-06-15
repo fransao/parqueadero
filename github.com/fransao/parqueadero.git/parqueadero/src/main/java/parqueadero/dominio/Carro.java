@@ -2,8 +2,8 @@ package parqueadero.dominio;
 
 public class Carro extends Vehiculo {
 
-    public Carro(String placa) {
-        super(placa);
+    public Carro(Vehiculo vehiculo) {
+        super(vehiculo.getPlaca(), vehiculo.getTipoVehiculo());
     }
 
 }

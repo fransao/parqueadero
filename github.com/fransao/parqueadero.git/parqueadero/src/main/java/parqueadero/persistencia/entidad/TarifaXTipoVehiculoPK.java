@@ -1,32 +1,55 @@
 package parqueadero.persistencia.entidad;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
+import java.io.Serializable;
 
-@Entity
-@IdClass(TarifaXTipoVehiculo.class)
-public class TarifaXTipoVehiculoPK {
+import javax.persistence.Embeddable;
 
-    @Id
-    private TipoVehiculoEntidad tipoVehiculoEntidad;
-    @Id
-    private UnidadTiempoEntidad unidadTiempoEntidad;
+@Embeddable
+public class TarifaXTipoVehiculoPK implements Serializable {
+
+    private static final long serialVersionUID = -538256606802120246L;
     
-    public TipoVehiculoEntidad getTipoVehiculoEntidad() {
-        return tipoVehiculoEntidad;
+    private Integer tipoVehiculo;
+    private Integer unidadTiempo;
+    
+    public Integer getTipoVehiculo() {
+        return tipoVehiculo;
     }
     
-    public void setTipoVehiculoEntidad(TipoVehiculoEntidad tipoVehiculoEntidad) {
-        this.tipoVehiculoEntidad = tipoVehiculoEntidad;
+    public void setTipoVehiculo(Integer tipoVehiculo) {
+        this.tipoVehiculo = tipoVehiculo;
     }
     
-    public UnidadTiempoEntidad getUnidadTiempoEntidad() {
-        return unidadTiempoEntidad;
+    public Integer getUnidadTiempo() {
+        return unidadTiempo;
     }
     
-    public void setUnidadTiempoEntidad(UnidadTiempoEntidad unidadTiempoEntidad) {
-        this.unidadTiempoEntidad = unidadTiempoEntidad;
+    public void setUnidadTiempoEntidad(Integer unidadTiempo) {
+        this.unidadTiempo = unidadTiempo;
     }
     
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (!(other instanceof TarifaXTipoVehiculoPK)) {
+            return false;
+        }
+        
+        TarifaXTipoVehiculoPK castOther = (TarifaXTipoVehiculoPK) other;
+        
+        return this.getTipoVehiculo().equals(castOther.getTipoVehiculo()) && this.getUnidadTiempo().equals(castOther.getUnidadTiempo());
+        
+    }
+    
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int hash = 17;
+        hash = hash * prime + this.tipoVehiculo.hashCode();
+        hash = hash * prime + this.unidadTiempo.hashCode();
+
+        return hash;
+    }
 }

@@ -1,6 +1,7 @@
 package parqueadero.unitaria;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
+import static org.mockito.Mockito.mock;
 
 import java.util.Date;
 
@@ -9,7 +10,9 @@ import org.junit.Test;
 
 import parqueadero.dominio.Moto;
 import parqueadero.dominio.Vigilante;
+import parqueadero.enumerado.EnumTipoVehiculo;
 import parqueadero.exception.ParqueaderoException;
+import parqueadero.servicio.IGestionVehiculoServicio;
 import testdatabuilder.MotoTestDataBuilder;
 
 public class VigilanteTest {
@@ -20,9 +23,11 @@ public class VigilanteTest {
     @Test
     public void ingresarVehiculoIniciaPlacaA () {
         // arrange
-        Moto moto = new MotoTestDataBuilder(PLACA).conCilindraje(CILINDRAJE).build();
+        Moto moto = new MotoTestDataBuilder(PLACA, EnumTipoVehiculo.MOTO).conCilindraje(CILINDRAJE).build();
         
-        Vigilante vigilante = new Vigilante ();
+        IGestionVehiculoServicio gestionVehiculoServicio = mock(IGestionVehiculoServicio.class);
+        
+        Vigilante vigilante = new Vigilante (gestionVehiculoServicio);
         
         // act
         try {

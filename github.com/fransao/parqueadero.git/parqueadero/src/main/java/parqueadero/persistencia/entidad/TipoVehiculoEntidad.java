@@ -1,5 +1,7 @@
 package parqueadero.persistencia.entidad;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -7,7 +9,9 @@ import javax.persistence.NamedQuery;
 
 @Entity (name="TipoVehiculo")
 @NamedQuery (name="TipoVehiculo.obtenerTipoVehiculo", query="SELECT tipovehiculo FROM TipoVehiculo tipovehiculo WHERE tipovehiculo.tipoVehiculo = :tipovehiculo")
-public class TipoVehiculoEntidad {
+public class TipoVehiculoEntidad implements Serializable {
+
+    private static final long serialVersionUID = -1012108427175404782L;
 
     @Id
     private Integer tipoVehiculo;

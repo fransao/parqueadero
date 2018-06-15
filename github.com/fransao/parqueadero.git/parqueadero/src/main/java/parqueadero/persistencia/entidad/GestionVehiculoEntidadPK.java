@@ -1,41 +1,37 @@
 package parqueadero.persistencia.entidad;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
+import java.io.Serializable;
+
+import javax.persistence.Embeddable;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-@Entity
-@IdClass(GestionVehiculoEntidad.class)
-public class GestionVehiculoEntidadPK {
+@Embeddable
+public class GestionVehiculoEntidadPK implements Serializable {
 
-    @Id
-    private VehiculoEntidad vehiculoEntidad;
+    private static final long serialVersionUID = 1665044872151755691L;
     
-    @Id
-    private TipoVehiculoEntidad tipoVehiculoEntidad;
-    
-    @Id
+    private String placa;
+    private Integer tipoVehiculo;
     @Temporal(TemporalType.TIMESTAMP)
     private java.util.Date fechaIngreso;
     
-    public VehiculoEntidad getVehiculoEntidad() {
-        return vehiculoEntidad;
+    public String getPlaca() {
+        return placa;
     }
-    
-    public void setVehiculoEntidad(VehiculoEntidad vehiculoEntidad) {
-        this.vehiculoEntidad = vehiculoEntidad;
+
+    public void setPlaca(String placa) {
+        this.placa = placa;
     }
-    
-    public TipoVehiculoEntidad getTipoVehiculoEntidad() {
-        return tipoVehiculoEntidad;
+
+    public Integer getTipoVehiculo() {
+        return tipoVehiculo;
     }
-    
-    public void setTipoVehiculoEntidad(TipoVehiculoEntidad tipoVehiculoEntidad) {
-        this.tipoVehiculoEntidad = tipoVehiculoEntidad;
+
+    public void setTipoVehiculo(Integer tipoVehiculo) {
+        this.tipoVehiculo = tipoVehiculo;
     }
-    
+
     public java.util.Date getFechaIngreso() {
         return fechaIngreso;
     }
@@ -44,4 +40,25 @@ public class GestionVehiculoEntidadPK {
         this.fechaIngreso = fechaIngreso;
     }
     
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (!(other instanceof GestionVehiculoEntidadPK)) {
+            return false;
+        }
+        GestionVehiculoEntidadPK castOther = (GestionVehiculoEntidadPK) other;
+        return this.placa.equals(castOther.getPlaca()) && this.tipoVehiculo.equals(castOther.tipoVehiculo);
+    }
+    
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int hash = 17;
+        hash = hash * prime + this.placa.hashCode();
+        hash = hash * prime + this.tipoVehiculo.hashCode();
+
+        return hash;
+    }
 }

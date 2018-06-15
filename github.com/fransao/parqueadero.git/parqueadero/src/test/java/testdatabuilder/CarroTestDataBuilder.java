@@ -1,6 +1,8 @@
 package testdatabuilder;
 
 import parqueadero.dominio.Carro;
+import parqueadero.dominio.Vehiculo;
+import parqueadero.enumerado.EnumTipoVehiculo;
 
 public class CarroTestDataBuilder {
 
@@ -18,6 +20,6 @@ public class CarroTestDataBuilder {
     }
     
     public Carro build () {
-        return new Carro (placa);
+        return new Carro (new Vehiculo(placa, EnumTipoVehiculo.CARRO));
     }
 }

@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import parqueadero.dominio.Moto;
+import parqueadero.enumerado.EnumTipoVehiculo;
 import testdatabuilder.MotoTestDataBuilder;
 
 public class MotoTest {
@@ -15,7 +16,7 @@ public class MotoTest {
     @Test
     public void crearMotoTest() {
         // arrange
-        MotoTestDataBuilder motoTestDataBuilder = new MotoTestDataBuilder(PLACA).conCilindraje(CILINDRAJE);
+        MotoTestDataBuilder motoTestDataBuilder = new MotoTestDataBuilder(PLACA, EnumTipoVehiculo.MOTO).conCilindraje(CILINDRAJE);
         
         // act
         Moto moto = motoTestDataBuilder.build();

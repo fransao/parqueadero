@@ -8,21 +8,32 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import parqueadero.dominio.Vehiculo;
+import parqueadero.enumerado.EnumEstadoParqueo;
+import parqueadero.persistencia.entidad.GestionVehiculoEntidad;
 
 @Repository
 @Transactional
+@Deprecated
 public class CustomRepository implements ICustomRepository {
 
+    private static final String SQL_OBTENER_VEHICULO = "SELECT gv " +
+                                                       "FROM GestionVehiculoEntidad gv " +
+                                                       "WHERE gv.gestionVehiculoEntidadPK.placa = :paramPlaca AND " +
+                                                       " gv.gestionVehiculoEntidadPK.tipoVehiculo = :paramTipoVehiculo AND " +
+                                                       " gv.estadoParqueo.estadoParqueo.estado = :paramEstadoParqueo ;";
+    
     @PersistenceContext
     EntityManager entityManager;
     
     @Override
-    public Vehiculo estaVehiculoIngresado(Vehiculo vehiculo) {
-        Query query = entityManager.createNativeQuery("SELECT gestionVehiculo FROM GestionVehiculo gestionVehiculo WHERE gestionVehiculoas  " +
-                "WHERE em.firstname LIKE ?", Vehiculo.class);
-        query.setParameter(1, vehiculo.getPlaca() + "%");
+    @Deprecated
+    public GestionVehiculoEntidad estaVehiculoIngresado(Vehiculo vehiculo) {
+        Query query = entityManager.createNativeQuery(SQL_OBTENER_VEHICULO, GestionVehiculoEntidad.class);
+        query.setParameter("paramPlaca",vehiculo.getPlaca());
+        query.setParameter("paramTipoVehiculo", vehiculo.getTipoVehiculo().getTipoVehiculo());
+        query.setParameter("paramEstadoParqueo", EnumEstadoParqueo.INGRESADO.getEstadoParqueo());
         
-        return (Vehiculo)query.getSingleResult();
+        return (GestionVehiculoEntidad)query.getSingleResult();
     }
 
 }

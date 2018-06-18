@@ -8,6 +8,10 @@ public class VehiculoTestDataBuilder {
     private String placa;
     private EnumTipoVehiculo tipoVehiculo;
     
+    public VehiculoTestDataBuilder () {
+        
+    }
+    
     public VehiculoTestDataBuilder (String placa, EnumTipoVehiculo tipoVehiculo) {
         this.placa = placa;
         this.tipoVehiculo = tipoVehiculo;

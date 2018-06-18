@@ -3,6 +3,7 @@ package parqueadero.unitaria;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import org.junit.Assert;
@@ -13,12 +14,15 @@ import parqueadero.dominio.Vigilante;
 import parqueadero.enumerado.EnumTipoVehiculo;
 import parqueadero.exception.ParqueaderoException;
 import parqueadero.servicio.IGestionVehiculoServicio;
+import parqueadero.servicio.IParqueaderoServicio;
+import parqueadero.util.Util;
 import testdatabuilder.MotoTestDataBuilder;
 
 public class VigilanteTest {
 
     private static final int CILINDRAJE = 650;
     private static final String PLACA = "AUV456";
+    private static final long MILLSECS_PER_DAY = 24 * 60 * 60 * 1000; //Milisegundos al día
     
     @Test
     public void ingresarVehiculoIniciaPlacaA () {
@@ -26,12 +30,13 @@ public class VigilanteTest {
         Moto moto = new MotoTestDataBuilder(PLACA, EnumTipoVehiculo.MOTO).conCilindraje(CILINDRAJE).build();
         
         IGestionVehiculoServicio gestionVehiculoServicio = mock(IGestionVehiculoServicio.class);
+        IParqueaderoServicio parqueaderoServicio = mock(IParqueaderoServicio.class);
         
-        Vigilante vigilante = new Vigilante (gestionVehiculoServicio);
+        Vigilante vigilante = new Vigilante (gestionVehiculoServicio, parqueaderoServicio);
         
         // act
         try {
-            vigilante.ingresarVehiculo(moto, new Date());
+            vigilante.ingresarVehiculoAParqueadero(moto, new Date());
             fail();
         } catch (ParqueaderoException pe) {
             // assert
@@ -39,5 +44,24 @@ public class VigilanteTest {
         }
         
     }
+    
+    @Test
+    public void obtenerTiempoVehiculoParque() {
+        // arrange
+        Calendar calendarFechaIngreso = Calendar.getInstance();
+        Calendar calendarFechaSalida  = Calendar.getInstance();
+        calendarFechaSalida.add(Calendar.DAY_OF_MONTH, 2);
+        calendarFechaSalida.add(Calendar.HOUR, 4);
+        
+        // act
+        int diasEntreDosFechas  = Util.getDiasEntreDosFechas(calendarFechaIngreso.getTime(), calendarFechaSalida.getTime());
+        int horasEntreDosFechas  = Util.getHorasEntreDosFechas(calendarFechaIngreso.getTime(), calendarFechaSalida.getTime());
+        
+        // assert
+        Assert.assertEquals(2, diasEntreDosFechas);
+        Assert.assertEquals(4, horasEntreDosFechas);
+        
+    }
+    
     
 }

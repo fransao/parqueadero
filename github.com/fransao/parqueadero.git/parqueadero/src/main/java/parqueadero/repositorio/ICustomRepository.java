@@ -1,8 +1,10 @@
 package parqueadero.repositorio;
 
 import parqueadero.dominio.Vehiculo;
+import parqueadero.persistencia.entidad.GestionVehiculoEntidad;
 
+@Deprecated
 public interface ICustomRepository {
 
-    Vehiculo estaVehiculoIngresado(Vehiculo vehiculo);
+    GestionVehiculoEntidad estaVehiculoIngresado(Vehiculo vehiculo);
 }

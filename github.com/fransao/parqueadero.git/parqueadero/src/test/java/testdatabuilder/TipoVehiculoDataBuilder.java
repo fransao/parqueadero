@@ -1,13 +1,14 @@
 package testdatabuilder;
 
 import parqueadero.dominio.TipoVehiculo;
+import parqueadero.enumerado.EnumTipoVehiculo;
 
 public class TipoVehiculoDataBuilder {
 
-    private static final int TIPO_VEHICULO = 1;
+    private static final EnumTipoVehiculo TIPO_VEHICULO = EnumTipoVehiculo.MOTO;
     private static final String NOMBRE_TIPO_VEHICULO = "MOTO";
     
-    private int tipoVehiculo;
+    private EnumTipoVehiculo tipoVehiculo;
     private String nombreTipoVehiculo;
     
     public TipoVehiculoDataBuilder (){
@@ -15,12 +16,12 @@ public class TipoVehiculoDataBuilder {
         this.nombreTipoVehiculo = NOMBRE_TIPO_VEHICULO;
     }
     
-    public TipoVehiculoDataBuilder(int tipoVehiculo, String nombreTipoVehiculo) {
+    public TipoVehiculoDataBuilder(EnumTipoVehiculo tipoVehiculo, String nombreTipoVehiculo) {
         this.tipoVehiculo = tipoVehiculo;
         this.nombreTipoVehiculo = nombreTipoVehiculo;
     }
 
-    public TipoVehiculoDataBuilder conTipoVehiculo(int tipoVehiculo) {
+    public TipoVehiculoDataBuilder conTipoVehiculo(EnumTipoVehiculo tipoVehiculo) {
         this.tipoVehiculo = tipoVehiculo;
         return this;
     }

@@ -10,21 +10,21 @@ import javax.persistence.NamedQuery;
 @Entity (name="TarifaXTipoVehiculo")
 @NamedQuery (name="TarifaXTipoVehiculo.obtenerTarifaVehiculo", 
 query="SELECT tarifaTipoVehiculo FROM TarifaXTipoVehiculo tarifaTipoVehiculo WHERE tarifaTipoVehiculo.tarifaXTipoVehiculoPK.tipoVehiculo = :tipovehiculo")
-public class TarifaXTipoVehiculo implements Serializable {
+public class TarifaXTipoVehiculoEntidad implements Serializable {
 
     private static final long serialVersionUID = 1146366245398745026L;
 
     @EmbeddedId
-    private TarifaXTipoVehiculoPK tarifaXTipoVehiculoPK;
+    private TarifaXTipoVehiculoEntidadPK tarifaXTipoVehiculoPK;
     
     @Column(nullable = false)
     private Float valor;
     
-    public TarifaXTipoVehiculoPK getTarifaXTipoVehiculoPK() {
+    public TarifaXTipoVehiculoEntidadPK getTarifaXTipoVehiculoPK() {
         return tarifaXTipoVehiculoPK;
     }
     
-    public void setTarifaXTipoVehiculoPK(TarifaXTipoVehiculoPK tarifaXTipoVehiculoPK) {
+    public void setTarifaXTipoVehiculoPK(TarifaXTipoVehiculoEntidadPK tarifaXTipoVehiculoPK) {
         this.tarifaXTipoVehiculoPK = tarifaXTipoVehiculoPK;
     }
     

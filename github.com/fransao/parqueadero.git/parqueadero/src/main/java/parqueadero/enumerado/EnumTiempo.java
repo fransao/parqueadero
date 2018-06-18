@@ -1,5 +1,7 @@
 package parqueadero.enumerado;
 
+import java.util.stream.Stream;
+
 public enum EnumTiempo {
 
     HORA(1),
@@ -16,11 +18,6 @@ public enum EnumTiempo {
     }
     
     public static EnumTiempo getEnum(int tiempo) {
-        for (EnumTiempo enumTiempo: EnumTiempo.values()) {
-            if (enumTiempo.getTiempo() == tiempo) {
-                return enumTiempo;
-            }
-        }
-        return null;
+        return Stream.of(EnumTiempo.values()).filter(t -> t.getTiempo() == tiempo).findFirst().orElse(null);
     }
 }

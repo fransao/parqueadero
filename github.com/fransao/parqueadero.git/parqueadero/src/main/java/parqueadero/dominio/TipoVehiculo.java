@@ -1,20 +1,22 @@
 package parqueadero.dominio;
 
+import parqueadero.enumerado.EnumTipoVehiculo;
+
 public class TipoVehiculo {
 
-    private int codTipoVehiculo;
+    private EnumTipoVehiculo codTipoVehiculo;
     private String nombreTipoVehiculo;
     
-    public TipoVehiculo(int tipoVehiculo, String nombreTipoVehiculo) {
+    public TipoVehiculo(EnumTipoVehiculo tipoVehiculo, String nombreTipoVehiculo) {
         this.codTipoVehiculo = tipoVehiculo;
         this.nombreTipoVehiculo = nombreTipoVehiculo;
     }
     
-    public int getCodTipoVehiculo() {
+    public EnumTipoVehiculo getCodTipoVehiculo() {
         return codTipoVehiculo;
     }
 
-    public void setCodTipoVehiculo(int codTipoVehiculo) {
+    public void setCodTipoVehiculo(EnumTipoVehiculo codTipoVehiculo) {
         this.codTipoVehiculo = codTipoVehiculo;
     }
     

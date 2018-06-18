@@ -5,7 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class TarifaXTipoVehiculoPK implements Serializable {
+public class TarifaXTipoVehiculoEntidadPK implements Serializable {
 
     private static final long serialVersionUID = -538256606802120246L;
     
@@ -33,11 +33,11 @@ public class TarifaXTipoVehiculoPK implements Serializable {
         if (this == other) {
             return true;
         }
-        if (!(other instanceof TarifaXTipoVehiculoPK)) {
+        if (!(other instanceof TarifaXTipoVehiculoEntidadPK)) {
             return false;
         }
         
-        TarifaXTipoVehiculoPK castOther = (TarifaXTipoVehiculoPK) other;
+        TarifaXTipoVehiculoEntidadPK castOther = (TarifaXTipoVehiculoEntidadPK) other;
         
         return this.getTipoVehiculo().equals(castOther.getTipoVehiculo()) && this.getUnidadTiempo().equals(castOther.getUnidadTiempo());
         

@@ -2,6 +2,7 @@ package parqueadero.dominio;
 
 import java.util.Date;
 
+import parqueadero.enumerado.EnumEstadoParqueo;
 import parqueadero.enumerado.EnumTipoVehiculo;
 
 public class GestionVehiculo {
@@ -12,7 +13,11 @@ public class GestionVehiculo {
     private Date fechaIngreso;
     private Date fechaSalida;
     private float valor;
-    private int estadoParqueo;
+    private EnumEstadoParqueo estadoParqueo;
+    
+    public GestionVehiculo () {
+        
+    }
     
     public GestionVehiculo(EnumTipoVehiculo tipoVehiculo, Vehiculo vehiculo, Date fechaIngreso) {
         this.enumTipoVehiculo = tipoVehiculo;
@@ -68,11 +73,11 @@ public class GestionVehiculo {
         this.valor = valor;
     }
 
-    public int getEstadoParqueo() {
+    public EnumEstadoParqueo getEstadoParqueo() {
         return estadoParqueo;
     }
 
-    public void setEstadoParqueo(int estadoParqueo) {
+    public void setEstadoParqueo(EnumEstadoParqueo estadoParqueo) {
         this.estadoParqueo = estadoParqueo;
     }
 

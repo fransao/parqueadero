@@ -35,7 +35,7 @@ public class VigilanteTest {
         
         // act
         try {
-            vigilante.ingresarVehiculoAParqueadero(moto, new Date());
+            vigilante.registrarIngresoVehiculoAParqueadero(moto, new Date());
             fail();
         } catch (ParqueaderoException pe) {
             // assert

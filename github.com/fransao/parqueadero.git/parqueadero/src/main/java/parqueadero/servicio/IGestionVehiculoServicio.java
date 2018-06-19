@@ -7,7 +7,8 @@ import parqueadero.persistencia.entidad.GestionVehiculoEntidad;
 
 public interface IGestionVehiculoServicio {
 
-    void ingresarVehiculo (GestionVehiculo gestionVehiculo);
+    void registrarIngresoVehiculo (GestionVehiculo gestionVehiculo);
+    void registrarSalidaVehiculo(GestionVehiculo gestionVehiculo);
     EstadoParqueo obtenerEstadoParqueo(EstadoParqueo estadoParqueo);
     GestionVehiculoEntidad estaVehiculoIngresado(Vehiculo vehiculo);
 }

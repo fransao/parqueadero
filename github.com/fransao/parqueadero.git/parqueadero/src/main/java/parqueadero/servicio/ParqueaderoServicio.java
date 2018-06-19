@@ -70,7 +70,7 @@ public class ParqueaderoServicio implements IParqueaderoServicio {
     }
 
     @Override
-    public List<GestionVehiculo> obtenerVehiculoParqueadero() {
+    public List<GestionVehiculo> obtenerVehiculosEnElParqueadero() {
         List<GestionVehiculoEntidad> vehiculosEnParqueadero = StreamSupport.stream(repositorioGestionParqueadero.findAll().spliterator(), false).collect(Collectors.toList());
         return vehiculosEnParqueadero.stream().map(VehiculoBuilder::convertirGestionVehiculoADominio).filter(r -> r != null).collect(Collectors.toList());
     }

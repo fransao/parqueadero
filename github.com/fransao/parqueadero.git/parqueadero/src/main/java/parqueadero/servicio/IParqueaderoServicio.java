@@ -14,5 +14,5 @@ public interface IParqueaderoServicio {
     RecargoCilindraje obtenerRecargo(Vehiculo vehiculo);
     void registrarRecargo(RecargoCilindraje recargoCilindraje);
     void registrarTarifas(List<TarifaXTipoVehiculo> listTarifaVehiculo);
-    List<GestionVehiculo> obtenerVehiculoParqueadero();
+    List<GestionVehiculo> obtenerVehiculosEnElParqueadero();
 }

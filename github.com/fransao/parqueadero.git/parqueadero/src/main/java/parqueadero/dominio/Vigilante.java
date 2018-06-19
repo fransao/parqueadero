@@ -26,7 +26,7 @@ public class Vigilante {
         this.parqueaderoServicio = parqueaderoServicio;
     }
     
-    public void ingresarVehiculoAParqueadero(Vehiculo vehiculo, Date fechaIngreso) {
+    public void registrarIngresoVehiculoAParqueadero(Vehiculo vehiculo, Date fechaIngreso) {
         
         if (placaIniciaA(vehiculo.getPlaca())) {
             validarDiaDomingoLunes(fechaIngreso);
@@ -40,6 +40,14 @@ public class Vigilante {
         
     }
 
+    public void registrarSalidaVehiculoParqueadero(Vehiculo vehiculo, Date fechaSalida) {
+        
+        GestionVehiculo salidaVehiculo = VehiculoBuilder.convertirGestionVehiculoADominio(gestionVehiculoServicio.estaVehiculoIngresado(vehiculo));
+        salidaVehiculo.setEstadoParqueo(EnumEstadoParqueo.SALIDA);
+        salidaVehiculo.setFechaSalida(fechaSalida);
+        gestionVehiculoServicio.registrarIngresoVehiculo(salidaVehiculo);
+    }
+    
     public float generarCobroVechiculoParqueo(GestionVehiculo gestionVehiculo) {
         
         float totalAPagar = 0.0f;
@@ -113,7 +121,7 @@ public class Vigilante {
         GestionVehiculo ingresoVehiculo = new GestionVehiculo(vehiculo, fechaIngreso);
         ingresoVehiculo.setEstadoParqueo(EnumEstadoParqueo.INGRESADO);
         ingresoVehiculo.setFechaIngreso(fechaIngreso);
-        gestionVehiculoServicio.ingresarVehiculo(ingresoVehiculo);
+        gestionVehiculoServicio.registrarIngresoVehiculo(ingresoVehiculo);
     }
     
     public GestionVehiculo obtenerVehiculoIngresado(Vehiculo vehiculo) {

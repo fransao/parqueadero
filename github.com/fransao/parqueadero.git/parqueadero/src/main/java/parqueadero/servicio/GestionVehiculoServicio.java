@@ -25,7 +25,7 @@ public class GestionVehiculoServicio implements IGestionVehiculoServicio {
     IRepositorioEstadoParqueo repositorioEstadoParqueo;
     
     @Override
-    public void ingresarVehiculo(GestionVehiculo gestionVehiculo) {
+    public void registrarIngresoVehiculo(GestionVehiculo gestionVehiculo) {
         repositorioGestionParqueadero.save(VehiculoBuilder.convertirGestionVehiculoAEntidad(gestionVehiculo));
         
     }
@@ -42,6 +42,11 @@ public class GestionVehiculoServicio implements IGestionVehiculoServicio {
              return VehiculoBuilder.convertirEstadoParqueoADominio(optEstadoParqueo.get());
          }
          return null;
+    }
+
+    @Override
+    public void registrarSalidaVehiculo(GestionVehiculo gestionVehiculo) {
+        repositorioGestionParqueadero.save(VehiculoBuilder.convertirGestionVehiculoAEntidad(gestionVehiculo));
     }
 
 }

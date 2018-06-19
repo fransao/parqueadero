@@ -123,16 +123,6 @@ public class VehiculoBuilder {
         return estadoParqueoEntidad;
     }
 
-    /*
-    private static GestionVehiculoEntidadPK convertirGestionVehiculoAEntidadPK(GestionVehiculo gestionVehiculo) {
-        GestionVehiculoEntidadPK gestionVehiculoEntidadPK = new GestionVehiculoEntidadPK();
-        gestionVehiculoEntidadPK.setTipoVehiculo(gestionVehiculo.getEnumTipoVehiculo().getTipoVehiculo());
-        gestionVehiculoEntidadPK.setPlaca(gestionVehiculo.getPlaca());
-        gestionVehiculoEntidadPK.setFechaIngreso(gestionVehiculo.getFechaIngreso());
-        
-        return gestionVehiculoEntidadPK;
-    } */
-
     public static EstadoParqueoEntidad convertirEstadoParqueoAEntidad(EstadoParqueo estadoParqueo) {
         EstadoParqueoEntidad estadoParqueoEntidad = new EstadoParqueoEntidad();
         estadoParqueoEntidad.setEstado(estadoParqueo.getEstadoParqueo().getEstadoParqueo());

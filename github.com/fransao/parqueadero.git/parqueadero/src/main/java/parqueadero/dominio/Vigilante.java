@@ -2,8 +2,11 @@ package parqueadero.dominio;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 import parqueadero.enumerado.EnumEstadoParqueo;
+import parqueadero.enumerado.EnumTiempo;
 import parqueadero.exception.ParqueaderoException;
 import parqueadero.persistencia.builder.VehiculoBuilder;
 import parqueadero.servicio.IGestionVehiculoServicio;
@@ -12,7 +15,6 @@ import parqueadero.util.Util;
 
 public class Vigilante {
 
-    private static final long MILLSECS_PER_DAY             = 24 * 60 * 60 * 1000; //Milisegundos al día
     private static final String MSJ_PARQUEADERO_VEHICULO   = "El parqueadero solo permite ingresar Carros y Motos";
     public static final  String MSJ_VEHICULO_NO_AUTORIZADO = "El vehiculo no esta autorizado para ingresar (puede ingresar el domingo o lunes)";
     
@@ -40,39 +42,22 @@ public class Vigilante {
 
     public float generarCobroVechiculoParqueo(GestionVehiculo gestionVehiculo) {
         
-        float subtotal = 0.0f;
-        float recargo  = 0.0f;
         float totalAPagar = 0.0f;
         
         if (gestionVehiculo == null) {
-            return subtotal;
+            return totalAPagar;
         }
         
-        Vehiculo vehiculo = gestionVehiculo.getVehiculo();
+        totalAPagar = calcularValorParqueadero(gestionVehiculo.getVehiculo(), gestionVehiculo.getFechaIngreso(), gestionVehiculo.getFechaSalida());
         
-        subtotal = calcularValorParqueadero(vehiculo, gestionVehiculo.getFechaIngreso(), gestionVehiculo.getFechaSalida());
-        
-        recargo = calcularRecaudo(vehiculo);
-        
-        totalAPagar = subtotal + recargo;
-        
-        
-        
-        return subtotal;
+        return totalAPagar;
     }
     
-    private float calcularRecaudo(Vehiculo vehiculo) {
-        float recargo = 0.0f;
-        RecargoCilindraje recargoCilindraje = parqueaderoServicio.obtenerRecargo(vehiculo);
-        if (recargoCilindraje != null) {
-            recargo = recargoCilindraje.getValor();
-        }
-        
-        return recargo;
-    }
-
     private float calcularValorParqueadero (Vehiculo vehiculo, Date fechaIngreso, Date fechaSalida) {
         float totalAPagar = 0.0f;
+        
+        List<TarifaXTipoVehiculo> listTarifa = parqueaderoServicio.obtenerTarifasXTipoVehiculo();
+        RecargoCilindraje recargoVehiculo = parqueaderoServicio.obtenerRecargo(vehiculo);
         
         int diasEntreDosFechas  = Util.getDiasEntreDosFechas(fechaIngreso, fechaSalida);
         int horasEntreDosFechas = Util.getHorasEntreDosFechas(fechaIngreso, fechaSalida);
@@ -82,18 +67,32 @@ public class Vigilante {
             horasEntreDosFechas = 0;
         }
         
-        if (vehiculo instanceof Moto) {
-            calcularRecargo(vehiculo);
+        if (diasEntreDosFechas > 0) {
+            Optional<TarifaXTipoVehiculo> optTarifaDia = listTarifa.stream().
+                    filter(t -> t.getTipoVehiculo().equals(vehiculo.getTipoVehiculo()) && EnumTiempo.DIA.equals(t.getUnidadTiempo())).
+                    findFirst();
+            if (optTarifaDia.isPresent()) {
+                totalAPagar = optTarifaDia.get().getValor() * diasEntreDosFechas; 
+            }
         }
+        
+        if (horasEntreDosFechas > 0) {
+            Optional<TarifaXTipoVehiculo> optTarifaHora = listTarifa.stream().
+                    filter(t -> t.getTipoVehiculo().equals(vehiculo.getTipoVehiculo()) && EnumTiempo.HORA.equals(t.getUnidadTiempo())).
+                    findFirst();
+            if (optTarifaHora.isPresent()) {
+                totalAPagar += optTarifaHora.get().getValor() * horasEntreDosFechas; 
+            }
+        }
+        
+        if (recargoVehiculo != null) {
+            totalAPagar +=  recargoVehiculo.getValor();
+        }
+        
         
         return totalAPagar;
     }
     
-    private void calcularRecargo(Vehiculo vehiculo) {
-        // TODO Auto-generated method stub
-        
-    }
-
     private void validarDiaDomingoLunes(Date fechaIngreso) {
         Calendar calendario = Calendar.getInstance();
         calendario.setTime(fechaIngreso);
@@ -111,8 +110,9 @@ public class Vigilante {
     }
 
     private void ingresarVehiculo (Vehiculo vehiculo, Date fechaIngreso) {
-        GestionVehiculo ingresoVehiculo = new GestionVehiculo(vehiculo.getTipoVehiculo(), vehiculo, fechaIngreso);
+        GestionVehiculo ingresoVehiculo = new GestionVehiculo(vehiculo, fechaIngreso);
         ingresoVehiculo.setEstadoParqueo(EnumEstadoParqueo.INGRESADO);
+        ingresoVehiculo.setFechaIngreso(fechaIngreso);
         gestionVehiculoServicio.ingresarVehiculo(ingresoVehiculo);
     }
     

@@ -10,5 +10,4 @@ public interface IRepositorioRecargo extends CrudRepository<RecargoCilindrajeEnt
 
     @Query("SELECT rec FROM Recargo rec WHERE rec.tipoVehiculo = :paramTipoVehiculo AND :paramCilindraje BETWEEN rec.cilindrajeDesde AND rec.cilindrajeHasta ")
     public RecargoCilindrajeEntidad obtenerRecargoVehiculo(@Param("paramTipoVehiculo") int paramTipoVehiculo, @Param("paramCilindraje") int paramCilindraje);
-     
 }

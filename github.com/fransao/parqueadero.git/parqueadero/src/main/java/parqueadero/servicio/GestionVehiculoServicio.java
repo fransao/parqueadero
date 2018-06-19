@@ -12,7 +12,6 @@ import parqueadero.enumerado.EnumEstadoParqueo;
 import parqueadero.persistencia.builder.VehiculoBuilder;
 import parqueadero.persistencia.entidad.EstadoParqueoEntidad;
 import parqueadero.persistencia.entidad.GestionVehiculoEntidad;
-import parqueadero.repositorio.ICustomRepository;
 import parqueadero.repositorio.IRepositorioEstadoParqueo;
 import parqueadero.repositorio.IRepositorioGestionParqueadero;
 
@@ -21,9 +20,6 @@ public class GestionVehiculoServicio implements IGestionVehiculoServicio {
 
     @Autowired
     public IRepositorioGestionParqueadero repositorioGestionParqueadero;
-    
-    @Autowired
-    private ICustomRepository customRepository;
     
     @Autowired
     IRepositorioEstadoParqueo repositorioEstadoParqueo;
@@ -37,8 +33,6 @@ public class GestionVehiculoServicio implements IGestionVehiculoServicio {
     @Override
     public GestionVehiculoEntidad estaVehiculoIngresado(Vehiculo vehiculo) {
         return repositorioGestionParqueadero.estaVehiculoIngresado(vehiculo.getPlaca(), EnumEstadoParqueo.INGRESADO.getEstadoParqueo());
-        // TODO FS eliminar metodo deprecado
-        // return customRepository.estaVehiculoIngresado(vehiculo);
     }
 
     @Override

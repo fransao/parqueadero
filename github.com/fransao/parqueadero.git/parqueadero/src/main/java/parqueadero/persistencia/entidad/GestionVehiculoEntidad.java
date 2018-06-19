@@ -2,9 +2,14 @@ package parqueadero.persistencia.entidad;
 
 import java.io.Serializable;
 
-import javax.persistence.EmbeddedId;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
@@ -16,10 +21,20 @@ public class GestionVehiculoEntidad implements Serializable {
 
     private static final long serialVersionUID = -6788333527455308654L;
 
-    @EmbeddedId
-    private GestionVehiculoEntidadPK gestionVehiculoEntidadPK;
+    @Id
+    @GeneratedValue (strategy = GenerationType.AUTO)
+    private Long secuenciaParqueoVehiculo;
+    
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "vehiculo")
+    private VehiculoEntidad vehiculo;
     
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "fechaIngreso")
+    private java.util.Date fechaIngreso;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "fechaSalida")
     private java.util.Date fechaSalida;
     
     @OneToOne
@@ -27,14 +42,6 @@ public class GestionVehiculoEntidad implements Serializable {
     private EstadoParqueoEntidad estadoParqueo;
     
     private Float valor;
-
-    public GestionVehiculoEntidadPK getGestionVehiculoEntidadPK() {
-        return gestionVehiculoEntidadPK;
-    }
-
-    public void setGestionVehiculoEntidadPK(GestionVehiculoEntidadPK gestionVehiculoEntidadPK) {
-        this.gestionVehiculoEntidadPK = gestionVehiculoEntidadPK;
-    }
 
     public java.util.Date getFechaSalida() {
         return fechaSalida;
@@ -58,6 +65,22 @@ public class GestionVehiculoEntidad implements Serializable {
 
     public void setValor(Float valor) {
         this.valor = valor;
+    }
+
+    public VehiculoEntidad getVehiculo() {
+        return vehiculo;
+    }
+
+    public void setVehiculo(VehiculoEntidad vehiculo) {
+        this.vehiculo = vehiculo;
+    }
+
+    public java.util.Date getFechaIngreso() {
+        return fechaIngreso;
+    }
+
+    public void setFechaIngreso(java.util.Date fechaIngreso) {
+        this.fechaIngreso = fechaIngreso;
     }
     
 }

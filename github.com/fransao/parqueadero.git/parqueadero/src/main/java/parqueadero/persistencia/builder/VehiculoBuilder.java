@@ -13,7 +13,6 @@ import parqueadero.enumerado.EnumTiempo;
 import parqueadero.enumerado.EnumTipoVehiculo;
 import parqueadero.persistencia.entidad.EstadoParqueoEntidad;
 import parqueadero.persistencia.entidad.GestionVehiculoEntidad;
-import parqueadero.persistencia.entidad.GestionVehiculoEntidadPK;
 import parqueadero.persistencia.entidad.RecargoCilindrajeEntidad;
 import parqueadero.persistencia.entidad.TarifaXTipoVehiculoEntidad;
 import parqueadero.persistencia.entidad.TarifaXTipoVehiculoEntidadPK;
@@ -27,9 +26,12 @@ public class VehiculoBuilder {
     }
     
     public static Vehiculo convertirVehiculoADominio (VehiculoEntidad vehiculoEntidad) {
-        Vehiculo vehiculo = null;
-        if (vehiculoEntidad != null) {
-            return new Vehiculo (vehiculoEntidad.getPlaca(), tipoVehiculoAEnumerado(vehiculoEntidad.getTipoVehiculo().getTipoVehiculo()));
+        Vehiculo vehiculo = new Vehiculo (vehiculoEntidad.getPlaca(), tipoVehiculoAEnumerado(vehiculoEntidad.getTipoVehiculo().getTipoVehiculo()));
+        if (EnumTipoVehiculo.MOTO.equals(EnumTipoVehiculo.getEnumTipoVehiculo(vehiculoEntidad.getTipoVehiculo().getTipoVehiculo()))) {
+            return new Moto (vehiculo, vehiculoEntidad.getCilindraje());
+        }
+        if (EnumTipoVehiculo.CARRO.equals(EnumTipoVehiculo.getEnumTipoVehiculo(vehiculoEntidad.getTipoVehiculo().getTipoVehiculo()))) {
+            return new Carro (vehiculo);
         }
         return vehiculo;
     }
@@ -94,8 +96,9 @@ public class VehiculoBuilder {
     
     public static GestionVehiculoEntidad convertirGestionVehiculoAEntidad (GestionVehiculo gestionVehiculo) {
         GestionVehiculoEntidad gestionVehiculoEntidad = new GestionVehiculoEntidad();
-        gestionVehiculoEntidad.setGestionVehiculoEntidadPK(convertirGestionVehiculoAEntidadPK(gestionVehiculo));
+        gestionVehiculoEntidad.setVehiculo(convertirVehiculoAEntidad(gestionVehiculo.getVehiculo()));
         gestionVehiculoEntidad.setEstadoParqueo(convertirEstadoParqueoAEstadoParqueoEntidad(gestionVehiculo));
+        gestionVehiculoEntidad.setFechaIngreso(gestionVehiculo.getFechaIngreso());
         gestionVehiculoEntidad.setFechaSalida(gestionVehiculo.getFechaSalida());
         gestionVehiculoEntidad.setValor(gestionVehiculo.getValor());
         
@@ -104,9 +107,10 @@ public class VehiculoBuilder {
 
     public static GestionVehiculo convertirGestionVehiculoADominio (GestionVehiculoEntidad gestionVehiculoEntidad) {
         GestionVehiculo gestionVehiculo = new GestionVehiculo();
-        gestionVehiculo.setEnumTipoVehiculo(EnumTipoVehiculo.getEnumTipoVehiculo(gestionVehiculoEntidad.getGestionVehiculoEntidadPK().getTipoVehiculo()));
+        gestionVehiculo.setVehiculo(convertirVehiculoADominio(gestionVehiculoEntidad.getVehiculo()));
         gestionVehiculo.setEstadoParqueo(EnumEstadoParqueo.getEnumEstadoParqueo(gestionVehiculoEntidad.getEstadoParqueo().getEstado()));
-        gestionVehiculo.setFechaIngreso(gestionVehiculoEntidad.getGestionVehiculoEntidadPK().getFechaIngreso());
+        gestionVehiculo.setFechaIngreso(gestionVehiculoEntidad.getFechaIngreso());
+        gestionVehiculo.setFechaSalida(gestionVehiculoEntidad.getFechaSalida());
         gestionVehiculo.setValor(gestionVehiculoEntidad.getValor());
         
         return gestionVehiculo;
@@ -119,14 +123,15 @@ public class VehiculoBuilder {
         return estadoParqueoEntidad;
     }
 
+    /*
     private static GestionVehiculoEntidadPK convertirGestionVehiculoAEntidadPK(GestionVehiculo gestionVehiculo) {
         GestionVehiculoEntidadPK gestionVehiculoEntidadPK = new GestionVehiculoEntidadPK();
         gestionVehiculoEntidadPK.setTipoVehiculo(gestionVehiculo.getEnumTipoVehiculo().getTipoVehiculo());
-        gestionVehiculoEntidadPK.setPlaca(gestionVehiculo.getVehiculo().getPlaca());
+        gestionVehiculoEntidadPK.setPlaca(gestionVehiculo.getPlaca());
         gestionVehiculoEntidadPK.setFechaIngreso(gestionVehiculo.getFechaIngreso());
         
         return gestionVehiculoEntidadPK;
-    }
+    } */
 
     public static EstadoParqueoEntidad convertirEstadoParqueoAEntidad(EstadoParqueo estadoParqueo) {
         EstadoParqueoEntidad estadoParqueoEntidad = new EstadoParqueoEntidad();
@@ -156,6 +161,7 @@ public class VehiculoBuilder {
     public static TarifaXTipoVehiculoEntidad convertirTarifaXTipoVehiculoAEntidad (TarifaXTipoVehiculo tarifaXTipoVehiculo) {
         TarifaXTipoVehiculoEntidad tarifaXTipoVehiculoEntidad = new TarifaXTipoVehiculoEntidad();
         tarifaXTipoVehiculoEntidad.setTarifaXTipoVehiculoPK(convertirTarifaTipoVehiculoAEntidadPK(tarifaXTipoVehiculo));
+        tarifaXTipoVehiculoEntidad.setValor(tarifaXTipoVehiculo.getValor());
         
         return tarifaXTipoVehiculoEntidad;
     }
@@ -170,6 +176,7 @@ public class VehiculoBuilder {
     
     public static RecargoCilindraje convertirRecargoEntidadADominio (RecargoCilindrajeEntidad recargoEntidad) {
         RecargoCilindraje recargo = new RecargoCilindraje();
+        recargo.setTipoVehiculo(EnumTipoVehiculo.getEnumTipoVehiculo(recargoEntidad.getTipoVehiculo()));
         recargo.setIdCilindraje(recargoEntidad.getIdCilindraje());
         recargo.setCilindrajeDesde(recargoEntidad.getCilindrajeDesde());
         recargo.setCilindrajeHasta(recargoEntidad.getCilindrajeHasta());
@@ -180,6 +187,7 @@ public class VehiculoBuilder {
     
     public static RecargoCilindrajeEntidad convertirRecargoAEntidad (RecargoCilindraje recargo) {
         RecargoCilindrajeEntidad recargoEntidad = new RecargoCilindrajeEntidad();
+        recargoEntidad.setTipoVehiculo(recargo.getTipoVehiculo().getTipoVehiculo());
         recargoEntidad.setIdCilindraje(recargo.getIdCilindraje());
         recargoEntidad.setCilindrajeDesde(recargo.getCilindrajeDesde());
         recargoEntidad.setCilindrajeHasta(recargo.getCilindrajeHasta());

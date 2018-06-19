@@ -8,18 +8,15 @@ import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 
 @Entity (name="Recargo")
-@NamedQuery (name="Recargo.obtenerRecargo", query="SELECT recargo FROM Recargo recargo WHERE recargo.cilindraje = :cilindraje")
+@NamedQuery (name="Recargo.obtenerRecargo", query="SELECT recargo FROM Recargo recargo WHERE recargo.idCilindraje = :cilindraje")
 public class RecargoCilindrajeEntidad implements Serializable {
 
     private static final long serialVersionUID = 6682843763585086568L;
 
     @Id
     private Integer idCilindraje;
-    @Id
     private Integer tipoVehiculo;
-    @Id
     private Integer cilindrajeDesde;
-    @Id
     private Integer cilindrajeHasta;
     
     @Column (nullable=false)

@@ -22,7 +22,6 @@ public class VigilanteTest {
 
     private static final int CILINDRAJE = 650;
     private static final String PLACA = "AUV456";
-    private static final long MILLSECS_PER_DAY = 24 * 60 * 60 * 1000; //Milisegundos al día
     
     @Test
     public void ingresarVehiculoIniciaPlacaA () {

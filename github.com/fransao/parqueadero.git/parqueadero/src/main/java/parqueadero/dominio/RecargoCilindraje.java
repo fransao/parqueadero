@@ -1,12 +1,23 @@
 package parqueadero.dominio;
 
+import parqueadero.enumerado.EnumTipoVehiculo;
+
 public class RecargoCilindraje {
 
+    private EnumTipoVehiculo tipoVehiculo;
     private int idCilindraje;
     private int cilindrajeDesde;
     private int cilindrajeHasta;
     private float valor;
     
+    public EnumTipoVehiculo getTipoVehiculo() {
+        return tipoVehiculo;
+    }
+
+    public void setTipoVehiculo(EnumTipoVehiculo tipoVehiculo) {
+        this.tipoVehiculo = tipoVehiculo;
+    }
+
     public int getIdCilindraje() {
         return idCilindraje;
     }

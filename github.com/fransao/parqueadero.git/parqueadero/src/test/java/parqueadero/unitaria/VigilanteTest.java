@@ -13,8 +13,8 @@ import parqueadero.dominio.Moto;
 import parqueadero.dominio.Vigilante;
 import parqueadero.enumerado.EnumTipoVehiculo;
 import parqueadero.exception.ParqueaderoException;
-import parqueadero.servicio.IGestionVehiculoServicio;
-import parqueadero.servicio.IParqueaderoServicio;
+import parqueadero.servicio.IVigilanteServicio;
+import parqueadero.servicio.IAdministradorParqueaderoServicio;
 import parqueadero.util.Util;
 import testdatabuilder.MotoTestDataBuilder;
 
@@ -28,10 +28,10 @@ public class VigilanteTest {
         // arrange
         Moto moto = new MotoTestDataBuilder(PLACA, EnumTipoVehiculo.MOTO).conCilindraje(CILINDRAJE).build();
         
-        IGestionVehiculoServicio gestionVehiculoServicio = mock(IGestionVehiculoServicio.class);
-        IParqueaderoServicio parqueaderoServicio = mock(IParqueaderoServicio.class);
+        IVigilanteServicio vigilanteServicio = mock(IVigilanteServicio.class);
+        IAdministradorParqueaderoServicio administradorParqueaderoServicio = mock(IAdministradorParqueaderoServicio.class);
         
-        Vigilante vigilante = new Vigilante (gestionVehiculoServicio, parqueaderoServicio);
+        Vigilante vigilante = new Vigilante (vigilanteServicio, administradorParqueaderoServicio);
         
         // act
         try {

@@ -8,9 +8,8 @@ import java.util.Optional;
 import parqueadero.enumerado.EnumEstadoParqueo;
 import parqueadero.enumerado.EnumTiempo;
 import parqueadero.exception.ParqueaderoException;
-import parqueadero.persistencia.builder.VehiculoBuilder;
-import parqueadero.servicio.IGestionVehiculoServicio;
-import parqueadero.servicio.IParqueaderoServicio;
+import parqueadero.servicio.IAdministradorParqueaderoServicio;
+import parqueadero.servicio.IVigilanteServicio;
 import parqueadero.util.Util;
 
 public class Vigilante {
@@ -18,12 +17,12 @@ public class Vigilante {
     private static final String MSJ_PARQUEADERO_VEHICULO   = "El parqueadero solo permite ingresar Carros y Motos";
     public static final  String MSJ_VEHICULO_NO_AUTORIZADO = "El vehiculo no esta autorizado para ingresar (puede ingresar el domingo o lunes)";
     
-    private IGestionVehiculoServicio gestionVehiculoServicio;
-    private IParqueaderoServicio parqueaderoServicio;
+    private IVigilanteServicio vigilanteServicio;
+    private IAdministradorParqueaderoServicio administradorParqueaderoServicio;
     
-    public Vigilante (IGestionVehiculoServicio gestionVehiculoServicio, IParqueaderoServicio parqueaderoServicio) {
-        this.gestionVehiculoServicio = gestionVehiculoServicio;
-        this.parqueaderoServicio = parqueaderoServicio;
+    public Vigilante (IVigilanteServicio vigilanteServicio, IAdministradorParqueaderoServicio administradorParqueaderoServicio) {
+        this.vigilanteServicio = vigilanteServicio;
+        this.administradorParqueaderoServicio = administradorParqueaderoServicio;
     }
     
     public void registrarIngresoVehiculoAParqueadero(Vehiculo vehiculo, Date fechaIngreso) {
@@ -42,10 +41,10 @@ public class Vigilante {
 
     public void registrarSalidaVehiculoParqueadero(Vehiculo vehiculo, Date fechaSalida) {
         
-        GestionVehiculo salidaVehiculo = VehiculoBuilder.convertirGestionVehiculoADominio(gestionVehiculoServicio.estaVehiculoIngresado(vehiculo));
+        GestionVehiculo salidaVehiculo = vigilanteServicio.estaVehiculoIngresado(vehiculo);
         salidaVehiculo.setEstadoParqueo(EnumEstadoParqueo.SALIDA);
         salidaVehiculo.setFechaSalida(fechaSalida);
-        gestionVehiculoServicio.registrarIngresoVehiculo(salidaVehiculo);
+        vigilanteServicio.registrarIngresoVehiculo(salidaVehiculo);
     }
     
     public float generarCobroVechiculoParqueo(GestionVehiculo gestionVehiculo) {
@@ -64,8 +63,8 @@ public class Vigilante {
     private float calcularValorParqueadero (Vehiculo vehiculo, Date fechaIngreso, Date fechaSalida) {
         float totalAPagar = 0.0f;
         
-        List<TarifaXTipoVehiculo> listTarifa = parqueaderoServicio.obtenerTarifasXTipoVehiculo();
-        RecargoCilindraje recargoVehiculo = parqueaderoServicio.obtenerRecargo(vehiculo);
+        List<TarifaXTipoVehiculo> listTarifa = administradorParqueaderoServicio.obtenerTarifasXTipoVehiculo();
+        RecargoCilindraje recargoVehiculo = administradorParqueaderoServicio.obtenerRecargo(vehiculo);
         
         int diasEntreDosFechas  = Util.getDiasEntreDosFechas(fechaIngreso, fechaSalida);
         int horasEntreDosFechas = Util.getHorasEntreDosFechas(fechaIngreso, fechaSalida);
@@ -121,15 +120,15 @@ public class Vigilante {
         GestionVehiculo ingresoVehiculo = new GestionVehiculo(vehiculo, fechaIngreso);
         ingresoVehiculo.setEstadoParqueo(EnumEstadoParqueo.INGRESADO);
         ingresoVehiculo.setFechaIngreso(fechaIngreso);
-        gestionVehiculoServicio.registrarIngresoVehiculo(ingresoVehiculo);
+        vigilanteServicio.registrarIngresoVehiculo(ingresoVehiculo);
     }
     
     public GestionVehiculo obtenerVehiculoIngresado(Vehiculo vehiculo) {
-        return VehiculoBuilder.convertirGestionVehiculoADominio(gestionVehiculoServicio.estaVehiculoIngresado(vehiculo));
+        return vigilanteServicio.estaVehiculoIngresado(vehiculo);
     }
     
     public boolean estaVehiculoIngresado(Vehiculo vehiculo) {
-        return gestionVehiculoServicio.estaVehiculoIngresado(vehiculo) != null;
+        return vigilanteServicio.estaVehiculoIngresado(vehiculo) != null;
     }
     
 }

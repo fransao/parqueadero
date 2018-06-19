@@ -1,27 +1,37 @@
 package parqueadero.servicio;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import parqueadero.dominio.EstadoParqueo;
 import parqueadero.dominio.GestionVehiculo;
 import parqueadero.dominio.Moto;
 import parqueadero.dominio.RecargoCilindraje;
 import parqueadero.dominio.TarifaXTipoVehiculo;
+import parqueadero.dominio.TipoVehiculo;
 import parqueadero.dominio.Vehiculo;
+import parqueadero.enumerado.EnumTipoVehiculo;
 import parqueadero.persistencia.builder.VehiculoBuilder;
+import parqueadero.persistencia.entidad.EstadoParqueoEntidad;
 import parqueadero.persistencia.entidad.GestionVehiculoEntidad;
 import parqueadero.persistencia.entidad.RecargoCilindrajeEntidad;
 import parqueadero.persistencia.entidad.TarifaXTipoVehiculoEntidad;
+import parqueadero.persistencia.entidad.TipoVehiculoEntidad;
+import parqueadero.persistencia.entidad.VehiculoEntidad;
+import parqueadero.repositorio.IRepositorioEstadoParqueo;
 import parqueadero.repositorio.IRepositorioGestionParqueadero;
 import parqueadero.repositorio.IRepositorioRecargo;
 import parqueadero.repositorio.IRepositorioTarifa;
+import parqueadero.repositorio.IRepositorioTipoVehiculo;
+import parqueadero.repositorio.IRepositorioVehiculo;
 
 @Service
-public class ParqueaderoServicio implements IParqueaderoServicio {
+public class AdministradorParqueaderoServicio implements IAdministradorParqueaderoServicio {
 
     @Autowired
     IRepositorioRecargo repositorioRecargo;
@@ -31,6 +41,54 @@ public class ParqueaderoServicio implements IParqueaderoServicio {
     
     @Autowired
     IRepositorioGestionParqueadero repositorioGestionParqueadero;
+    
+    @Autowired
+    IRepositorioTipoVehiculo repositorioTipoVehiculo;
+    
+    @Autowired
+    IRepositorioEstadoParqueo repositorioEstadoParqueo;
+    
+    @Autowired
+    IRepositorioVehiculo repositorioVehiculo;
+    
+    @Override
+    public void registrarTipoVehiculo(TipoVehiculo tipoVehiculo) {
+        repositorioTipoVehiculo.save(VehiculoBuilder.convertirTipoVehiculoAEntidad(tipoVehiculo));
+        
+    }
+
+    @Override
+    public TipoVehiculo obtenerTipoVehiculo(EnumTipoVehiculo tipoVehiculo) {
+        Optional<TipoVehiculoEntidad> optTipoVehiculo = repositorioTipoVehiculo.findById(tipoVehiculo.getTipoVehiculo());
+        if (optTipoVehiculo.isPresent()) {
+            return VehiculoBuilder.convertirTipoVehiculoADominio(optTipoVehiculo.get());
+        }
+        return null;
+    }
+
+    @Override
+    public void registrarEstadoParqueo(EstadoParqueo estadoParqueo) {
+        repositorioEstadoParqueo.save(VehiculoBuilder.convertirEstadoParqueoAEntidad(estadoParqueo));
+    }
+    
+    @Override
+    public Vehiculo obtenerVehiculoPorPlaca(String placa) {
+        Optional<VehiculoEntidad> vehiculo = repositorioVehiculo.findById(placa);
+        if (vehiculo.isPresent()) {
+            return VehiculoBuilder.convertirVehiculoADominio(vehiculo.get());
+        }
+
+        return null;
+    }
+    
+    @Override
+    public EstadoParqueo obtenerEstadoParqueo(EstadoParqueo estadoParqueo) {
+         Optional<EstadoParqueoEntidad> optEstadoParqueo = repositorioEstadoParqueo.findById(estadoParqueo.getEstadoParqueo().getEstadoParqueo());
+         if (optEstadoParqueo.isPresent()) {
+             return VehiculoBuilder.convertirEstadoParqueoADominio(optEstadoParqueo.get());
+         }
+         return null;
+    }
     
     @Override
     public List<TarifaXTipoVehiculo> obtenerTarifasXTipoVehiculo() {

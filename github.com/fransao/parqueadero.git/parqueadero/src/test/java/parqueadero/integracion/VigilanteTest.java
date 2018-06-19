@@ -24,9 +24,8 @@ import parqueadero.dominio.Vigilante;
 import parqueadero.enumerado.EnumEstadoParqueo;
 import parqueadero.enumerado.EnumTiempo;
 import parqueadero.enumerado.EnumTipoVehiculo;
-import parqueadero.servicio.IGestionVehiculoServicio;
-import parqueadero.servicio.IParqueaderoServicio;
-import parqueadero.servicio.IVehiculoServicio;
+import parqueadero.servicio.IAdministradorParqueaderoServicio;
+import parqueadero.servicio.IVigilanteServicio;
 import testdatabuilder.EstadoParqueoDataBuilder;
 import testdatabuilder.MotoTestDataBuilder;
 import testdatabuilder.TipoVehiculoDataBuilder;
@@ -37,13 +36,10 @@ import testdatabuilder.VehiculoTestDataBuilder;
 public class VigilanteTest {
 
     @Autowired
-    private IVehiculoServicio vehiculoServicio;
+    private IVigilanteServicio vigilanteServicio;
     
     @Autowired
-    private IGestionVehiculoServicio gestionVehiculoServicio;
-    
-    @Autowired
-    private IParqueaderoServicio parqueaderoServicio;
+    private IAdministradorParqueaderoServicio administradorParqueaderoServicio;
     
     private static final int CILINDRAJE = 650;
     private static final String PLACA_01 = "TUV456";
@@ -70,7 +66,7 @@ public class VigilanteTest {
         recargoCilindraje.setCilindrajeHasta(2000);
         recargoCilindraje.setValor(2000);
         
-        parqueaderoServicio.registrarRecargo(recargoCilindraje);
+        administradorParqueaderoServicio.registrarRecargo(recargoCilindraje);
         
     }
 
@@ -105,7 +101,7 @@ public class VigilanteTest {
         
         listTarifaVehiculo.add(tarifaVehuiculo);
         
-        parqueaderoServicio.registrarTarifas(listTarifaVehiculo);
+        administradorParqueaderoServicio.registrarTarifas(listTarifaVehiculo);
         
     }
 
@@ -115,7 +111,7 @@ public class VigilanteTest {
             tipoVehiculo = new TipoVehiculoDataBuilder()
                     .conTipoVehiculo(enumTipoVehiculo)
                     .conNombre(enumTipoVehiculo.name()).build();
-            vehiculoServicio.registrarTipoVehiculo(tipoVehiculo);
+            administradorParqueaderoServicio.registrarTipoVehiculo(tipoVehiculo);
         }
         
     }
@@ -127,7 +123,7 @@ public class VigilanteTest {
                     .conCodEstadoParqueo(enumEstadoParqueo)
                     .conNombreEstadoParqueo(enumEstadoParqueo.name()).build();
 
-            vehiculoServicio.registrarEstadoParqueo(estadoParqueo);
+            administradorParqueaderoServicio.registrarEstadoParqueo(estadoParqueo);
         }
         
     }
@@ -140,10 +136,10 @@ public class VigilanteTest {
                                         .conNombre(TIPO_VEHICULO_MOTO).build();
         
         // act
-        vehiculoServicio.registrarTipoVehiculo(tipoVehiculo);
+        administradorParqueaderoServicio.registrarTipoVehiculo(tipoVehiculo);
         
         //assert
-        Assert.assertTrue(vehiculoServicio.obtenerTipoVehiculo(tipoVehiculo.getCodTipoVehiculo()) != null);
+        Assert.assertTrue(administradorParqueaderoServicio.obtenerTipoVehiculo(tipoVehiculo.getCodTipoVehiculo()) != null);
     }
     
     @Test
@@ -154,10 +150,10 @@ public class VigilanteTest {
                                         .conNombreEstadoParqueo(NOMBRE_PARQUEO_INGRESADO).build();
         
         // act
-        vehiculoServicio.registrarEstadoParqueo(estadoParqueo);
+        administradorParqueaderoServicio.registrarEstadoParqueo(estadoParqueo);
         
         //assert
-        Assert.assertTrue(gestionVehiculoServicio.obtenerEstadoParqueo(estadoParqueo) != null);
+        Assert.assertTrue(administradorParqueaderoServicio.obtenerEstadoParqueo(estadoParqueo) != null);
     }
     
     @Test
@@ -165,8 +161,8 @@ public class VigilanteTest {
         
         // arrange
         Vehiculo moto = new MotoTestDataBuilder(PLACA_01, EnumTipoVehiculo.MOTO).conCilindraje(CILINDRAJE).build();
-        vehiculoServicio.registrarPlacaVehiculo(moto);
-        Vigilante vigilante = new Vigilante (gestionVehiculoServicio, parqueaderoServicio);
+        vigilanteServicio.registrarPlacaVehiculo(moto);
+        Vigilante vigilante = new Vigilante (vigilanteServicio, administradorParqueaderoServicio);
         
         // act
         vigilante.registrarIngresoVehiculoAParqueadero(moto, new Date());
@@ -181,8 +177,8 @@ public class VigilanteTest {
         
         // arrange
         Vehiculo moto = new MotoTestDataBuilder(PLACA_01, EnumTipoVehiculo.MOTO).conCilindraje(CILINDRAJE).build();
-        vehiculoServicio.registrarPlacaVehiculo(moto);
-        Vigilante vigilante = new Vigilante (gestionVehiculoServicio, parqueaderoServicio);
+        vigilanteServicio.registrarPlacaVehiculo(moto);
+        Vigilante vigilante = new Vigilante (vigilanteServicio, administradorParqueaderoServicio);
         
         // act
         vigilante.registrarSalidaVehiculoParqueadero(moto, new Date());
@@ -199,8 +195,8 @@ public class VigilanteTest {
         calendarFechaSalida.add(Calendar.HOUR, 4);
         
         Vehiculo moto = new MotoTestDataBuilder(PLACA_02, EnumTipoVehiculo.MOTO).conCilindraje(CILINDRAJE).build();
-        vehiculoServicio.registrarPlacaVehiculo(moto);
-        Vigilante vigilante = new Vigilante (gestionVehiculoServicio, parqueaderoServicio);
+        vigilanteServicio.registrarPlacaVehiculo(moto);
+        Vigilante vigilante = new Vigilante (vigilanteServicio, administradorParqueaderoServicio);
         
         Vehiculo vehiculo = new VehiculoTestDataBuilder().conPlaca(PLACA_02).build();
         

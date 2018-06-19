@@ -40,47 +40,60 @@ public class Vigilante {
 
     public float generarCobroVechiculoParqueo(GestionVehiculo gestionVehiculo) {
         
-        float valorAPagar = 0.0f;
-        float recargo     = 0.0f;
+        float subtotal = 0.0f;
+        float recargo  = 0.0f;
+        float totalAPagar = 0.0f;
         
         if (gestionVehiculo == null) {
-            return valorAPagar;
+            return subtotal;
         }
         
         Vehiculo vehiculo = gestionVehiculo.getVehiculo();
         
-        valorAPagar = calcularValorParqueadero(vehiculo, gestionVehiculo.getFechaIngreso(), gestionVehiculo.getFechaSalida());
+        subtotal = calcularValorParqueadero(vehiculo, gestionVehiculo.getFechaIngreso(), gestionVehiculo.getFechaSalida());
         
-        calcularRecaudo(vehiculo);
+        recargo = calcularRecaudo(vehiculo);
         
-        return valorAPagar;
+        totalAPagar = subtotal + recargo;
+        
+        
+        
+        return subtotal;
     }
     
-    private void calcularRecaudo(Vehiculo vehiculo) {
-        parqueaderoServicio.obtenerRecargos();
-        
-        
-        
-        if (vehiculo instanceof Moto) {
-            Moto moto = (Moto) vehiculo;
-            moto.getCilindraje();
+    private float calcularRecaudo(Vehiculo vehiculo) {
+        float recargo = 0.0f;
+        RecargoCilindraje recargoCilindraje = parqueaderoServicio.obtenerRecargo(vehiculo);
+        if (recargoCilindraje != null) {
+            recargo = recargoCilindraje.getValor();
         }
         
+        return recargo;
     }
 
     private float calcularValorParqueadero (Vehiculo vehiculo, Date fechaIngreso, Date fechaSalida) {
         float totalAPagar = 0.0f;
         
         int diasEntreDosFechas  = Util.getDiasEntreDosFechas(fechaIngreso, fechaSalida);
-        int horasEntreDosFechas  = Util.getHorasEntreDosFechas(fechaIngreso, fechaSalida);
+        int horasEntreDosFechas = Util.getHorasEntreDosFechas(fechaIngreso, fechaSalida);
         
-        if (vehiculo instanceof Moto && ((Moto) vehiculo).getCilindraje() > 500) {
-//            calcularRecargo();
+        if (horasEntreDosFechas >= 9) {
+            diasEntreDosFechas += 1;
+            horasEntreDosFechas = 0;
+        }
+        
+        if (vehiculo instanceof Moto) {
+            calcularRecargo(vehiculo);
         }
         
         return totalAPagar;
     }
     
+    private void calcularRecargo(Vehiculo vehiculo) {
+        // TODO Auto-generated method stub
+        
+    }
+
     private void validarDiaDomingoLunes(Date fechaIngreso) {
         Calendar calendario = Calendar.getInstance();
         calendario.setTime(fechaIngreso);

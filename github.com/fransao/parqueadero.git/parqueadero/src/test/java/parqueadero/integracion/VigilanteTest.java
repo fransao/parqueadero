@@ -91,7 +91,7 @@ public class VigilanteTest {
     
     @Test
     public void ingresarEstadoParqueo () {
-     // arrange
+        // arrange
         EstadoParqueo estadoParqueo = new EstadoParqueoDataBuilder()
                                         .conCodEstadoParqueo(EnumEstadoParqueo.INGRESADO)
                                         .conNombreEstadoParqueo(NOMBRE_PARQUEO_INGRESADO).build();

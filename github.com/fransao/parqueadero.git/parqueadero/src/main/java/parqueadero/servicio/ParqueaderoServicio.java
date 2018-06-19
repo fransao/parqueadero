@@ -6,8 +6,10 @@ import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import parqueadero.dominio.Moto;
 import parqueadero.dominio.RecargoCilindraje;
 import parqueadero.dominio.TarifaXTipoVehiculo;
+import parqueadero.dominio.Vehiculo;
 import parqueadero.persistencia.builder.VehiculoBuilder;
 import parqueadero.persistencia.entidad.RecargoCilindrajeEntidad;
 import parqueadero.persistencia.entidad.TarifaXTipoVehiculoEntidad;
@@ -35,6 +37,15 @@ public class ParqueaderoServicio implements IParqueaderoServicio {
         List<RecargoCilindrajeEntidad> listRecargo = StreamSupport.stream(repositorioRecargo.findAll().spliterator(), false).collect(Collectors.toList());
         
         return listRecargo.stream().map(VehiculoBuilder::convertirRecargoEntidadADominio).filter(r -> r != null).collect(Collectors.toList());
+    }
+
+    @Override
+    public RecargoCilindraje obtenerRecargo(Vehiculo vehiculo) {
+        if (vehiculo instanceof Moto) {
+            Moto moto = (Moto) vehiculo;
+            return VehiculoBuilder.convertirRecargoEntidadADominio(repositorioRecargo.obtenerRecargoVehiculo(moto.getTipoVehiculo().getTipoVehiculo(), moto.getCilindraje()));
+        }
+        return null;
     }
 
 }

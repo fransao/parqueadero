@@ -45,17 +45,20 @@ public class VehiculoBuilder {
         VehiculoEntidad vehiculoEntidad = new VehiculoEntidad();
         vehiculoEntidad.setPlaca(vehiculo.getPlaca());
         vehiculoEntidad.setTipoVehiculo(getTipoVehiculo(vehiculo));
-        vehiculoEntidad.setCilindraje(convertirVehiculoAMoto(vehiculo).getCilindraje());
+        if (vehiculo instanceof Moto) {
+          vehiculoEntidad.setCilindraje(getCilindrajeVehiculo(vehiculo));
+        }
+        
         
         return vehiculoEntidad;
     }
     
-    private static Moto convertirVehiculoAMoto (Vehiculo vehiculo) {
-        Moto moto = null;
+    private static int getCilindrajeVehiculo (Vehiculo vehiculo) {
+        int cilindraje = 0;
         if (vehiculo instanceof Moto) {
-            moto = (Moto) vehiculo;
+            cilindraje = ((Moto) vehiculo).getCilindraje();
         }
-        return moto;
+        return cilindraje;
     }
     
     private static Carro convertirVehiculoACarro (Vehiculo vehiculo) {

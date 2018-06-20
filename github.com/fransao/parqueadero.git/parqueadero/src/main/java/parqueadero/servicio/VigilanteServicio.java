@@ -33,7 +33,7 @@ public class VigilanteServicio implements IVigilanteServicio {
     @Override
     public GestionVehiculo estaVehiculoIngresado(Vehiculo vehiculo) {
         GestionVehiculoEntidad optGestionVehiculo = repositorioGestionParqueadero.estaVehiculoIngresado(vehiculo.getPlaca(), EnumEstadoParqueo.INGRESADO.getEstadoParqueo());
-        return VehiculoBuilder.convertirGestionVehiculoADominio(optGestionVehiculo);
+        return optGestionVehiculo == null ? null : VehiculoBuilder.convertirGestionVehiculoADominio(optGestionVehiculo);
     }
 
     @Override

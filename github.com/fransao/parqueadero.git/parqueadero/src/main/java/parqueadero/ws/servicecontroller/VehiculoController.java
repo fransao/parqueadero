@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,8 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import parqueadero.dominio.GestionVehiculo;
+import parqueadero.dominio.RequestVehiculo;
 import parqueadero.dominio.Vehiculo;
+import parqueadero.dominio.Vigilante;
 import parqueadero.enumerado.EnumEstadoParqueo;
+import parqueadero.enumerado.EnumTipoVehiculo;
 import parqueadero.servicio.IAdministradorParqueaderoServicio;
 import parqueadero.servicio.IVigilanteServicio;
 import testdatabuilder.VehiculoTestDataBuilder;
@@ -26,14 +29,14 @@ import testdatabuilder.VehiculoTestDataBuilder;
 public class VehiculoController {
 
     @Autowired
-    IAdministradorParqueaderoServicio parqueaderoservicio;
+    IAdministradorParqueaderoServicio administradorParqueaderoServicio;
     
     @Autowired
     IVigilanteServicio vigilanteServicio;
     
     @RequestMapping(value="/vehiculo/", method=RequestMethod.GET)
     public List<GestionVehiculo> consultarVehiculosEnParqueadero() {
-        return parqueaderoservicio.obtenerVehiculosEnElParqueadero();
+        return administradorParqueaderoServicio.obtenerVehiculosEnElParqueadero();
     }
     
     @RequestMapping(value="/vehiculo{placa}", method=RequestMethod.GET)
@@ -41,26 +44,37 @@ public class VehiculoController {
         return vigilanteServicio.estaVehiculoIngresado(new VehiculoTestDataBuilder().conPlaca(placa).build());
     }
     
-    @RequestMapping(value = "/vehiculo/", method = RequestMethod.POST)
-    public GestionVehiculo registrarIngresoVehiculo(@RequestBody Vehiculo vehiculo, UriComponentsBuilder ucBuilder) {
+    @PostMapping
+    @RequestMapping(value = "/vehiculo/")
+    public GestionVehiculo registrarIngresoVehiculo(@RequestBody RequestVehiculo requestVehiculo) {
  
-        if (vigilanteServicio.estaVehiculoIngresado(vehiculo) == null) {
+        Vehiculo vehiculo; 
+        if (EnumTipoVehiculo.MOTO.equals(requestVehiculo.getTipoVehiculo())) {
+            vehiculo = requestVehiculo.getMoto();
+        } else if (EnumTipoVehiculo.CARRO.equals(requestVehiculo.getTipoVehiculo())) {
+            vehiculo = requestVehiculo.getCarro();
+        } else {
+            vehiculo = requestVehiculo.getVehiculo(); 
+        }
+        
+        if (administradorParqueaderoServicio.obtenerVehiculoPorPlaca(vehiculo.getPlaca()) == null) {
             vigilanteServicio.registrarPlacaVehiculo(vehiculo);
         }
         
-        GestionVehiculo gestionVehiculo = new GestionVehiculo(vehiculo, new Date());
+        Vigilante vigilante = new Vigilante (vigilanteServicio, administradorParqueaderoServicio);
         
-        vigilanteServicio.registrarIngresoVehiculo(gestionVehiculo);
- 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/parqueadero/vehiculo/{placa}").buildAndExpand(vehiculo.getPlaca()).toUri());
-        return gestionVehiculo;
+        GestionVehiculo obtenerVehiculoIngresado = vigilante.obtenerVehiculoIngresado(vehiculo);
+        if (obtenerVehiculoIngresado == null) {
+            vigilante.registrarIngresoVehiculoAParqueadero(vehiculo, new Date());
+        }
+        
+        return vigilante.obtenerVehiculoIngresado(vehiculo);
     }
     
     @RequestMapping(value = "/vehiculo/{placa}", method = RequestMethod.PUT)
-    public GestionVehiculo registrarSalidaVehiculo(@RequestBody Vehiculo vehiculo, UriComponentsBuilder ucBuilder) {
+    public GestionVehiculo registrarSalidaVehiculo(@PathVariable String placa) {
         
-        GestionVehiculo gestionVehiculo = vigilanteServicio.estaVehiculoIngresado(vehiculo);
+        GestionVehiculo gestionVehiculo = vigilanteServicio.estaVehiculoIngresado(new Vehiculo(placa));
         gestionVehiculo.setEstadoParqueo(EnumEstadoParqueo.SALIDA);
         gestionVehiculo.setFechaSalida(new Date());
         gestionVehiculo.setValor(0.0f);

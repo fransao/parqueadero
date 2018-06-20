@@ -7,6 +7,14 @@ public class Vehiculo {
     private String placa;
     private EnumTipoVehiculo tipoVehiculo;
     
+    public Vehiculo () {
+        
+    }
+    
+    public Vehiculo (String placa) {
+        this.placa = placa;
+    }
+    
     public Vehiculo (String placa, EnumTipoVehiculo tipoVehiculo) {
         this.placa = placa;
         this.tipoVehiculo = tipoVehiculo;

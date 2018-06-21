@@ -254,6 +254,7 @@ public class VigilanteTest {
         Vigilante vigilante = new Vigilante (vigilanteServicio, administradorParqueaderoServicio);
         
         // act
+        vigilante.desocuparParqueadero();
         vigilante.registrarIngresoVehiculoAParqueadero(moto, new Date());
         vigilante.registrarSalidaVehiculoParqueadero(moto, new Date());
         

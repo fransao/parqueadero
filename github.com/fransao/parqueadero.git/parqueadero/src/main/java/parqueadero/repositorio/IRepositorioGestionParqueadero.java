@@ -8,7 +8,7 @@ import parqueadero.persistencia.entidad.GestionVehiculoEntidad;
 
 public interface IRepositorioGestionParqueadero extends CrudRepository<GestionVehiculoEntidad, Long> {
 
-    @Query("SELECT gv FROM GestionVehiculo gv WHERE gv.vehiculo.placa = :paramPlaca AND " +
-           " gv.estadoParqueo.estado = :paramEstadoParqueo ")
+    @Query(value = "SELECT gv FROM GestionVehiculo gv WHERE gv.vehiculo.placa = :paramPlaca AND gv.estadoParqueo.estado = :paramEstadoParqueo")
     public GestionVehiculoEntidad estaVehiculoIngresado(@Param("paramPlaca") String paramPlaca, @Param("paramEstadoParqueo") int paramEstadoParqueo);
+    
 }

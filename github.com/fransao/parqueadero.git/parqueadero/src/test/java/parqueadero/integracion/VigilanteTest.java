@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import parqueadero.dominio.EstadoParqueo;
-import parqueadero.dominio.GestionVehiculo;
 import parqueadero.dominio.RecargoCilindraje;
 import parqueadero.dominio.TarifaXTipoVehiculo;
 import parqueadero.dominio.TipoVehiculo;
@@ -24,8 +22,11 @@ import parqueadero.dominio.Vigilante;
 import parqueadero.enumerado.EnumEstadoParqueo;
 import parqueadero.enumerado.EnumTiempo;
 import parqueadero.enumerado.EnumTipoVehiculo;
+import parqueadero.exception.ParqueaderoException;
 import parqueadero.servicio.IAdministradorParqueaderoServicio;
 import parqueadero.servicio.IVigilanteServicio;
+import parqueadero.util.Util;
+import testdatabuilder.CarroTestDataBuilder;
 import testdatabuilder.EstadoParqueoDataBuilder;
 import testdatabuilder.MotoTestDataBuilder;
 import testdatabuilder.TipoVehiculoDataBuilder;
@@ -42,8 +43,14 @@ public class VigilanteTest {
     private IAdministradorParqueaderoServicio administradorParqueaderoServicio;
     
     private static final int CILINDRAJE = 650;
-    private static final String PLACA_01 = "TUV456";
-    private static final String PLACA_02 = "XXX999";
+    private static final String PLACA_MOTO = "TUV456";
+    private static final String PLACA_SALIDA_MOTO = "SALM010";
+    private static final String PLACA_CARRO = "CMR842";
+    private static final String PLACA_MAXIMO_10_MOTOS = "TCBV053";
+    private static final String PLACA_MAXIMO_20_CARROS = "ZXO226";
+    private static final String PLACA_CREAR_10_MOTOS = "MOTO";
+    private static final String PLACA_CREAR_20_CARROS = "CARR";
+    private static final String PLACA_CARRO_COBRAR = "XXX999";
 
     private static final String TIPO_VEHICULO_MOTO = "Moto";
 
@@ -160,57 +167,219 @@ public class VigilanteTest {
     public void registrarIngresoMotoTest() {
         
         // arrange
-        Vehiculo moto = new MotoTestDataBuilder(PLACA_01, EnumTipoVehiculo.MOTO).conCilindraje(CILINDRAJE).build();
+        Vehiculo moto = new MotoTestDataBuilder(PLACA_MOTO, EnumTipoVehiculo.MOTO).conCilindraje(CILINDRAJE).build();
         vigilanteServicio.registrarPlacaVehiculo(moto);
         Vigilante vigilante = new Vigilante (vigilanteServicio, administradorParqueaderoServicio);
         
         // act
+        vigilante.desocuparParqueadero();
         vigilante.registrarIngresoVehiculoAParqueadero(moto, new Date());
         
         // assert
         Assert.assertTrue(vigilante.estaVehiculoIngresado(moto));
     }
 
-    @Ignore
+    @Test
+    public void registrarIngresoMaximo10MotoTest() {
+        
+        // arrange
+     // act
+        try {
+            registrar10Motos();
+
+            Vehiculo moto = new MotoTestDataBuilder(PLACA_MAXIMO_10_MOTOS, EnumTipoVehiculo.MOTO).conCilindraje(CILINDRAJE).build();
+            vigilanteServicio.registrarPlacaVehiculo(moto);
+
+            Vigilante vigilante = new Vigilante(vigilanteServicio, administradorParqueaderoServicio);
+
+            vigilante.validarDisponibilidad(moto);
+        } catch (ParqueaderoException pe) {
+            // assert
+            Assert.assertEquals(Vigilante.MSJ_MAXIMO_MOTOS_PARQUEADOOS, pe.getMessage());
+        }
+    }
+    
+    @Test
+    public void registrarIngresoMaximo20CarrosTest() {
+        
+        // arrange
+        try {
+            registrar20Carros();
+
+            Vehiculo carro = new CarroTestDataBuilder().conPlaca(PLACA_MAXIMO_20_CARROS).build();
+            vigilanteServicio.registrarPlacaVehiculo(carro);
+
+            Vigilante vigilante = new Vigilante(vigilanteServicio, administradorParqueaderoServicio);
+
+            // act
+            vigilante.validarDisponibilidad(carro);
+        } catch (ParqueaderoException pe) {
+            // assert
+            Assert.assertEquals(Vigilante.MSJ_MAXIMO_CARROS_PARQUEADOS, pe.getMessage());
+        }
+    }
+    
+    private void registrar10Motos() {
+        
+        Vehiculo moto;
+        
+        Vigilante vigilante = new Vigilante (vigilanteServicio, administradorParqueaderoServicio);
+        
+        for (int i=0; i<=9; i++) {
+            moto = new MotoTestDataBuilder(PLACA_CREAR_10_MOTOS + i, EnumTipoVehiculo.MOTO).conCilindraje(CILINDRAJE+1).build();
+            vigilanteServicio.registrarPlacaVehiculo(moto);
+            vigilante.registrarIngresoVehiculoAParqueadero(moto, new Date());
+        }
+    }
+
+    private void registrar20Carros() {
+        
+        Vehiculo carro;
+        
+        Vigilante vigilante = new Vigilante (vigilanteServicio, administradorParqueaderoServicio);
+        
+        for (int i=0; i<=19; i++) {
+            carro = new CarroTestDataBuilder().conPlaca(PLACA_CREAR_20_CARROS + i).build();
+            vigilanteServicio.registrarPlacaVehiculo(carro);
+            vigilante.registrarIngresoVehiculoAParqueadero(carro, new Date());
+        }
+    }
+
     @Test
     public void registrarSalidaMotoTest() {
         
         // arrange
-        Vehiculo moto = new MotoTestDataBuilder(PLACA_01, EnumTipoVehiculo.MOTO).conCilindraje(CILINDRAJE).build();
+        Vehiculo moto = new MotoTestDataBuilder(PLACA_SALIDA_MOTO, EnumTipoVehiculo.MOTO).conCilindraje(CILINDRAJE).build();
         vigilanteServicio.registrarPlacaVehiculo(moto);
         Vigilante vigilante = new Vigilante (vigilanteServicio, administradorParqueaderoServicio);
         
         // act
+        vigilante.registrarIngresoVehiculoAParqueadero(moto, new Date());
         vigilante.registrarSalidaVehiculoParqueadero(moto, new Date());
         
         // assert
+        // TODO FS
         Assert.assertTrue(vigilante.estaVehiculoIngresado(moto));
     }
     
     @Test
-    public void generarCobroTest() {
+    public void cobrarPorDiaTest() {
         // arrange
+        Date fechaIngreso = new Date();
+        
         Calendar calendarFechaSalida  = Calendar.getInstance();
         calendarFechaSalida.add(Calendar.DAY_OF_MONTH, 2);
         calendarFechaSalida.add(Calendar.HOUR, 4);
         
-        Vehiculo moto = new MotoTestDataBuilder(PLACA_02, EnumTipoVehiculo.MOTO).conCilindraje(CILINDRAJE).build();
-        vigilanteServicio.registrarPlacaVehiculo(moto);
         Vigilante vigilante = new Vigilante (vigilanteServicio, administradorParqueaderoServicio);
         
-        Vehiculo vehiculo = new VehiculoTestDataBuilder().conPlaca(PLACA_02).build();
+        Vehiculo vehiculo = new VehiculoTestDataBuilder().conPlaca(PLACA_CARRO_COBRAR).conTipVehiculo(EnumTipoVehiculo.CARRO).build();
         
         // act
-        vigilante.registrarIngresoVehiculoAParqueadero(moto, new Date());
+        List<TarifaXTipoVehiculo> listTarifa = administradorParqueaderoServicio.obtenerTarifasXTipoVehiculo();
         
-        GestionVehiculo vehiculoIngresado = vigilante.obtenerVehiculoIngresado(vehiculo);
-        vehiculoIngresado.setFechaSalida(calendarFechaSalida.getTime());
+        int diasEntreDosFechas  = Util.getDiasEntreDosFechas(fechaIngreso, calendarFechaSalida.getTime());
+        int horasEntreDosFechas = Util.getHorasEntreDosFechas(fechaIngreso, calendarFechaSalida.getTime());
         
-        float valorAPagar = vigilante.generarCobroVechiculoParqueo(vehiculoIngresado);
+        if (horasEntreDosFechas >= 9) {
+            diasEntreDosFechas += 1;
+            horasEntreDosFechas = 0;
+        }
         
         // assert
-        // TODO FS
-        Assert.assertTrue(vigilante.estaVehiculoIngresado(vehiculo));
+        Assert.assertTrue(vigilante.calcularCobroPorDia(listTarifa, vehiculo, diasEntreDosFechas) > 0);
+    }
+    
+    @Test
+    public void cobrarPorHoraTest() {
+        // arrange
+        Date fechaIngreso = new Date();
+        
+        Calendar calendarFechaSalida  = Calendar.getInstance();
+        calendarFechaSalida.add(Calendar.DAY_OF_MONTH, 2);
+        calendarFechaSalida.add(Calendar.HOUR, 4);
+        
+        Vigilante vigilante = new Vigilante (vigilanteServicio, administradorParqueaderoServicio);
+        
+        Vehiculo vehiculo = new VehiculoTestDataBuilder().conPlaca(PLACA_CARRO_COBRAR).conTipVehiculo(EnumTipoVehiculo.CARRO).build();
+        
+        // act
+        List<TarifaXTipoVehiculo> listTarifa = administradorParqueaderoServicio.obtenerTarifasXTipoVehiculo();
+        
+        int horasEntreDosFechas = Util.getHorasEntreDosFechas(fechaIngreso, calendarFechaSalida.getTime());
+        
+        if (horasEntreDosFechas >= 9) {
+            horasEntreDosFechas = 0;
+        }
+        
+        // assert
+        Assert.assertTrue(vigilante.calcularCobroPorHora(listTarifa, vehiculo, horasEntreDosFechas) >= 0);
+    }
+    
+    @Test
+    public void cobrarPorDiaYHoraTest() {
+        // arrange
+        Date fechaIngreso = new Date();
+        
+        Calendar calendarFechaSalida  = Calendar.getInstance();
+        calendarFechaSalida.add(Calendar.DAY_OF_MONTH, 2);
+        calendarFechaSalida.add(Calendar.HOUR, 4);
+        
+        Vigilante vigilante = new Vigilante (vigilanteServicio, administradorParqueaderoServicio);
+        
+        Vehiculo vehiculo = new VehiculoTestDataBuilder().conPlaca(PLACA_CARRO_COBRAR).conTipVehiculo(EnumTipoVehiculo.CARRO).build();
+        
+        // act
+        List<TarifaXTipoVehiculo> listTarifa = administradorParqueaderoServicio.obtenerTarifasXTipoVehiculo();
+        
+        int diasEntreDosFechas  = Util.getDiasEntreDosFechas(fechaIngreso, calendarFechaSalida.getTime());
+        int horasEntreDosFechas = Util.getHorasEntreDosFechas(fechaIngreso, calendarFechaSalida.getTime());
+        
+        if (horasEntreDosFechas >= 9) {
+            diasEntreDosFechas += 1;
+            horasEntreDosFechas = 0;
+        }
+        
+        // assert
+        Assert.assertTrue(vigilante.calcularCobroPorDia(listTarifa, vehiculo, diasEntreDosFechas) > 0);
+        Assert.assertTrue(vigilante.calcularCobroPorHora(listTarifa, vehiculo, horasEntreDosFechas) >= 0);
+    }
+    
+    @Test
+    public void cobrarMotoMayorCilindrajeTest() {
+        // arrange
+        Date fechaIngreso = new Date();
+        float totalAPagar = 0.0f;
+        
+        Calendar calendarFechaSalida  = Calendar.getInstance();
+        calendarFechaSalida.add(Calendar.DAY_OF_MONTH, 2);
+        calendarFechaSalida.add(Calendar.HOUR, 4);
+        
+        Vigilante vigilante = new Vigilante (vigilanteServicio, administradorParqueaderoServicio);
+        
+        Vehiculo vehiculo = new MotoTestDataBuilder(PLACA_CARRO_COBRAR, EnumTipoVehiculo.MOTO).conCilindraje(CILINDRAJE).build();
+        
+        // act
+        List<TarifaXTipoVehiculo> listTarifa = administradorParqueaderoServicio.obtenerTarifasXTipoVehiculo();
+        RecargoCilindraje recargoVehiculo    = administradorParqueaderoServicio.obtenerRecargo(vehiculo);
+        
+        int diasEntreDosFechas  = Util.getDiasEntreDosFechas(fechaIngreso, calendarFechaSalida.getTime());
+        int horasEntreDosFechas = Util.getHorasEntreDosFechas(fechaIngreso, calendarFechaSalida.getTime());
+        
+        if (horasEntreDosFechas >= 9) {
+            diasEntreDosFechas += 1;
+            horasEntreDosFechas = 0;
+        }
+        
+        totalAPagar = vigilante.calcularCobroPorDia (listTarifa, vehiculo, diasEntreDosFechas);
+        totalAPagar += vigilante.calcularCobroPorHora (listTarifa, vehiculo, horasEntreDosFechas);
+        
+        if (recargoVehiculo != null) {
+            totalAPagar +=  recargoVehiculo.getValor();
+        }
+        
+        // assert
+        Assert.assertTrue(totalAPagar > 0);
     }
     
 }

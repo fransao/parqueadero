@@ -13,8 +13,8 @@ import parqueadero.dominio.Moto;
 import parqueadero.dominio.Vigilante;
 import parqueadero.enumerado.EnumTipoVehiculo;
 import parqueadero.exception.ParqueaderoException;
-import parqueadero.servicio.IVigilanteServicio;
 import parqueadero.servicio.IAdministradorParqueaderoServicio;
+import parqueadero.servicio.IVigilanteServicio;
 import parqueadero.util.Util;
 import testdatabuilder.MotoTestDataBuilder;
 
@@ -22,6 +22,7 @@ public class VigilanteTest {
 
     private static final int CILINDRAJE = 650;
     private static final String PLACA = "AUV456";
+    private static final String PLACA_01 = "TUV456";
     
     @Test
     public void ingresarVehiculoIniciaPlacaA () {
@@ -54,7 +55,7 @@ public class VigilanteTest {
         
         // act
         int diasEntreDosFechas  = Util.getDiasEntreDosFechas(calendarFechaIngreso.getTime(), calendarFechaSalida.getTime());
-        int horasEntreDosFechas  = Util.getHorasEntreDosFechas(calendarFechaIngreso.getTime(), calendarFechaSalida.getTime());
+        int horasEntreDosFechas = Util.getHorasEntreDosFechas(calendarFechaIngreso.getTime(), calendarFechaSalida.getTime());
         
         // assert
         Assert.assertEquals(2, diasEntreDosFechas);

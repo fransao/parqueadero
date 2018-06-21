@@ -45,4 +45,9 @@ public class VigilanteServicio implements IVigilanteServicio {
         repositorioVehiculo.save(VehiculoBuilder.convertirVehiculoAEntidad(vehiculo));
     }
 
+    @Override
+    public void desocuparParqueadero() {
+        repositorioGestionParqueadero.deleteAll();
+    }
+
 }

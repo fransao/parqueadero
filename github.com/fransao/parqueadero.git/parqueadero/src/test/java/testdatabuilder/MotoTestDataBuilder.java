@@ -13,6 +13,7 @@ public class MotoTestDataBuilder extends VehiculoTestDataBuilder {
     public MotoTestDataBuilder (String placa, EnumTipoVehiculo tipoVehiculo) {
         super (placa, tipoVehiculo);
         cilindraje = CILINDRAJE;
+        this.tipoVehiculo = EnumTipoVehiculo.CARRO;
     }
     
     public MotoTestDataBuilder conCilindraje(int cilindraje) {
@@ -20,15 +21,12 @@ public class MotoTestDataBuilder extends VehiculoTestDataBuilder {
         return this;
     }
     
+    public void conTipoVehiculo(EnumTipoVehiculo tipoVehiculo) {
+        this.tipoVehiculo = tipoVehiculo;
+    }
+    
     public Moto build() {
         return new Moto (super.build() , cilindraje);
     }
 
-    public EnumTipoVehiculo getTipoVehiculo() {
-        return tipoVehiculo;
-    }
-
-    public void setTipoVehiculo(EnumTipoVehiculo tipoVehiculo) {
-        this.tipoVehiculo = tipoVehiculo;
-    }
 }

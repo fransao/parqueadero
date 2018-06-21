@@ -5,9 +5,8 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import parqueadero.persistencia.entidad.GestionVehiculoEntidad;
-import parqueadero.persistencia.entidad.GestionVehiculoEntidadPK;
 
-public interface IRepositorioGestionParqueadero extends CrudRepository<GestionVehiculoEntidad, GestionVehiculoEntidadPK> {
+public interface IRepositorioGestionParqueadero extends CrudRepository<GestionVehiculoEntidad, Long> {
 
     @Query("SELECT gv FROM GestionVehiculo gv WHERE gv.vehiculo.placa = :paramPlaca AND " +
            " gv.estadoParqueo.estado = :paramEstadoParqueo ")

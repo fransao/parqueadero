@@ -9,4 +9,5 @@ public interface IVigilanteServicio {
     void registrarIngresoVehiculo (GestionVehiculo gestionVehiculo);
     void registrarSalidaVehiculo(GestionVehiculo gestionVehiculo);
     GestionVehiculo estaVehiculoIngresado(Vehiculo vehiculo);
+    void desocuparParqueadero();
 }

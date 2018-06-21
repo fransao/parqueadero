@@ -99,6 +99,7 @@ public class VehiculoBuilder {
     
     public static GestionVehiculoEntidad convertirGestionVehiculoAEntidad (GestionVehiculo gestionVehiculo) {
         GestionVehiculoEntidad gestionVehiculoEntidad = new GestionVehiculoEntidad();
+        gestionVehiculoEntidad.setSecuenciaParqueoVehiculo(gestionVehiculo.getSecuenciaParqueoVehiculo());
         gestionVehiculoEntidad.setVehiculo(convertirVehiculoAEntidad(gestionVehiculo.getVehiculo()));
         gestionVehiculoEntidad.setEstadoParqueo(convertirEstadoParqueoAEstadoParqueoEntidad(gestionVehiculo));
         gestionVehiculoEntidad.setFechaIngreso(gestionVehiculo.getFechaIngreso());
@@ -110,6 +111,7 @@ public class VehiculoBuilder {
 
     public static GestionVehiculo convertirGestionVehiculoADominio (GestionVehiculoEntidad gestionVehiculoEntidad) {
         GestionVehiculo gestionVehiculo = new GestionVehiculo();
+        gestionVehiculo.setSecuenciaParqueoVehiculo(gestionVehiculoEntidad.getSecuenciaParqueoVehiculo());
         gestionVehiculo.setVehiculo(convertirVehiculoADominio(gestionVehiculoEntidad.getVehiculo()));
         gestionVehiculo.setEstadoParqueo(EnumEstadoParqueo.getEnumEstadoParqueo(gestionVehiculoEntidad.getEstadoParqueo().getEstado()));
         gestionVehiculo.setFechaIngreso(gestionVehiculoEntidad.getFechaIngreso());

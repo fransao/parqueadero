@@ -173,6 +173,7 @@ public class VigilanteTest {
         
         // act
         vigilante.desocuparParqueadero();
+        
         vigilante.registrarIngresoVehiculoAParqueadero(moto, new Date());
         
         // assert
@@ -254,13 +255,11 @@ public class VigilanteTest {
         Vigilante vigilante = new Vigilante (vigilanteServicio, administradorParqueaderoServicio);
         
         // act
-        vigilante.desocuparParqueadero();
         vigilante.registrarIngresoVehiculoAParqueadero(moto, new Date());
         vigilante.registrarSalidaVehiculoParqueadero(moto, new Date());
         
         // assert
-        // TODO FS
-        Assert.assertTrue(vigilante.estaVehiculoIngresado(moto));
+        Assert.assertFalse(vigilante.estaVehiculoIngresado(moto));
     }
     
     @Test

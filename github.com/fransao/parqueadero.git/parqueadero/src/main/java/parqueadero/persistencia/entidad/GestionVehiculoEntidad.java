@@ -42,6 +42,14 @@ public class GestionVehiculoEntidad implements Serializable {
     private EstadoParqueoEntidad estadoParqueo;
     
     private Float valor;
+    
+    public Long getSecuenciaParqueoVehiculo() {
+        return secuenciaParqueoVehiculo;
+    }
+
+    public void setSecuenciaParqueoVehiculo(Long secuenciaParqueoVehiculo) {
+        this.secuenciaParqueoVehiculo = secuenciaParqueoVehiculo;
+    }
 
     public java.util.Date getFechaSalida() {
         return fechaSalida;

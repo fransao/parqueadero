@@ -78,11 +78,14 @@ public class VehiculoController {
     public GestionVehiculo registrarSalidaVehiculo(@PathVariable String placa) {
         
         GestionVehiculo gestionVehiculo = vigilanteServicio.estaVehiculoIngresado(new Vehiculo(placa));
-        gestionVehiculo.setEstadoParqueo(EnumEstadoParqueo.SALIDA);
-        gestionVehiculo.setFechaSalida(new Date());
-        gestionVehiculo.setValor(0.0f);
+        if (gestionVehiculo != null) {
+            gestionVehiculo.setEstadoParqueo(EnumEstadoParqueo.SALIDA);
+            gestionVehiculo.setFechaSalida(new Date());
+            gestionVehiculo.setValor(0.0f);
+            
+            vigilanteServicio.registrarSalidaVehiculo(gestionVehiculo);
+        }
         
-        vigilanteServicio.registrarSalidaVehiculo(gestionVehiculo);
         return gestionVehiculo;
     }
     

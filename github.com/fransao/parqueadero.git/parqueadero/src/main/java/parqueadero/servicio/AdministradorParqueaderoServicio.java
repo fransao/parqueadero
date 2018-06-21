@@ -129,7 +129,7 @@ public class AdministradorParqueaderoServicio implements IAdministradorParqueade
 
     @Override
     public List<GestionVehiculo> obtenerVehiculosEnElParqueadero() {
-        List<GestionVehiculoEntidad> vehiculosEnParqueadero = StreamSupport.stream(repositorioGestionParqueadero.findAll().spliterator(), false).collect(Collectors.toList());
+        List<GestionVehiculoEntidad> vehiculosEnParqueadero = StreamSupport.stream(repositorioGestionParqueadero.obtenerVehiculosEnElParqueadero().spliterator(), false).collect(Collectors.toList());
         return vehiculosEnParqueadero.stream().map(VehiculoBuilder::convertirGestionVehiculoADominio).filter(r -> r != null).collect(Collectors.toList());
     }
 

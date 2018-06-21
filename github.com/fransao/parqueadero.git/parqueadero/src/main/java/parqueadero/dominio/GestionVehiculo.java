@@ -6,6 +6,7 @@ import parqueadero.enumerado.EnumEstadoParqueo;
 
 public class GestionVehiculo {
 
+    private long secuenciaParqueoVehiculo;
     private Vehiculo vehiculo;
     private Date fechaIngreso;
     private Date fechaSalida;
@@ -19,6 +20,14 @@ public class GestionVehiculo {
     public GestionVehiculo(Vehiculo vehiculo, Date fechaIngreso) {
         this.vehiculo = vehiculo;;
         this.fechaIngreso = fechaIngreso;
+    }
+
+    public long getSecuenciaParqueoVehiculo() {
+        return secuenciaParqueoVehiculo;
+    }
+
+    public void setSecuenciaParqueoVehiculo(long secuenciaParqueoVehiculo) {
+        this.secuenciaParqueoVehiculo = secuenciaParqueoVehiculo;
     }
 
     public Vehiculo getVehiculo() {

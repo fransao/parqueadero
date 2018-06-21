@@ -27,7 +27,6 @@ public class VigilanteServicio implements IVigilanteServicio {
     @Override
     public void registrarIngresoVehiculo(GestionVehiculo gestionVehiculo) {
         repositorioGestionParqueadero.save(VehiculoBuilder.convertirGestionVehiculoAEntidad(gestionVehiculo));
-        
     }
 
     @Override

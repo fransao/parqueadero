@@ -76,6 +76,7 @@ public class Vigilante {
     }
 
     public void registrarSalidaVehiculoParqueadero(Vehiculo vehiculo, Date fechaSalida) {
+        
         GestionVehiculo salidaVehiculo = vigilanteServicio.estaVehiculoIngresado(vehiculo);
         if (salidaVehiculo != null) {
             salidaVehiculo.setEstadoParqueo(EnumEstadoParqueo.SALIDA);

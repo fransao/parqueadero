@@ -1,7 +1,5 @@
 package parqueadero.dominio;
 
-import parqueadero.enumerado.EnumTipoVehiculo;
-
 public class RequestVehiculo extends Vehiculo {
     
     private int cilindraje;
@@ -15,7 +13,7 @@ public class RequestVehiculo extends Vehiculo {
     }
 
     public Vehiculo getVehiculo () {
-        return new Vehiculo(getPlaca(), EnumTipoVehiculo.getEnumTipoVehiculo(getCilindraje()));
+        return new Vehiculo(getPlaca(), getTipoVehiculo());
     }
     
     public Moto getMoto () {

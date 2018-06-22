@@ -7,6 +7,7 @@ import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import parqueadero.dominio.EstadoParqueo;
 import parqueadero.dominio.GestionVehiculo;
@@ -31,6 +32,7 @@ import parqueadero.repositorio.IRepositorioTipoVehiculo;
 import parqueadero.repositorio.IRepositorioVehiculo;
 
 @Service
+@CrossOrigin(origins = "http://localhost:4200")
 public class AdministradorParqueaderoServicio implements IAdministradorParqueaderoServicio {
 
     @Autowired

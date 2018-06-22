@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,11 +36,13 @@ public class VehiculoController {
     @Autowired
     IVigilanteServicio vigilanteServicio;
     
+    @CrossOrigin(origins = "*")
     @RequestMapping(value="/vehiculo/", method=RequestMethod.GET)
     public List<GestionVehiculo> consultarVehiculosEnParqueadero() {
         return administradorParqueaderoServicio.obtenerVehiculosEnElParqueadero();
     }
     
+    @CrossOrigin(origins = "*")
     @GetMapping
     @RequestMapping(value="/vehiculo/{placa}")
     @ResponseBody
@@ -47,6 +50,7 @@ public class VehiculoController {
         return vigilanteServicio.estaVehiculoIngresado(new VehiculoTestDataBuilder().conPlaca(placa).build());
     }
     
+    @CrossOrigin(origins = "*")
     @PostMapping
     @RequestMapping(value = "/vehiculo/")
     public GestionVehiculo registrarIngresoVehiculo(@RequestBody RequestVehiculo requestVehiculo) {
@@ -74,6 +78,7 @@ public class VehiculoController {
         return vigilante.obtenerVehiculoIngresado(vehiculo);
     }
     
+    @CrossOrigin(origins = "*")
     @RequestMapping(value = "/vehiculo/{placa}", method = RequestMethod.PUT)
     public GestionVehiculo registrarSalidaVehiculo(@PathVariable String placa) {
         

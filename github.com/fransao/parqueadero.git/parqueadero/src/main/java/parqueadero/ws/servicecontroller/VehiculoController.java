@@ -78,7 +78,7 @@ public class VehiculoController {
         return vigilante.obtenerVehiculoIngresado(vehiculo);
     }
     
-    @CrossOrigin(origins = "*")
+    /*@CrossOrigin(origins = "*")
     @RequestMapping(value = "/vehiculo/{placa}", method = RequestMethod.PUT)
     public GestionVehiculo registrarSalidaVehiculo(@PathVariable String placa) {
         
@@ -87,6 +87,24 @@ public class VehiculoController {
             gestionVehiculo.setEstadoParqueo(EnumEstadoParqueo.SALIDA);
             gestionVehiculo.setFechaSalida(new Date());
             gestionVehiculo.setValor(0.0f);
+            
+            vigilanteServicio.registrarSalidaVehiculo(gestionVehiculo);
+        }
+        
+        return gestionVehiculo;
+    }*/
+    
+    @CrossOrigin(origins = "*")
+    @RequestMapping(value = "/vehiculo/{placa}", method = RequestMethod.PUT)
+    public GestionVehiculo calcularCobroParqueadero(@PathVariable String placa) {
+        
+        Vigilante vigilante = new Vigilante (vigilanteServicio, administradorParqueaderoServicio);
+        
+        GestionVehiculo gestionVehiculo = vigilanteServicio.estaVehiculoIngresado(new Vehiculo(placa));
+        if (gestionVehiculo != null) {
+            gestionVehiculo.setEstadoParqueo(EnumEstadoParqueo.SALIDA);
+            gestionVehiculo.setFechaSalida(new Date());
+            gestionVehiculo.setValor(vigilante.generarCobroVechiculoParqueo(gestionVehiculo));
             
             vigilanteServicio.registrarSalidaVehiculo(gestionVehiculo);
         }

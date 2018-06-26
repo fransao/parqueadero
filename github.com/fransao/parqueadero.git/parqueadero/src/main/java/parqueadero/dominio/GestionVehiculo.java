@@ -49,6 +49,7 @@ public class GestionVehiculo {
         this.fechaIngreso = fechaIngreso;
     }
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", locale = "es_ES")
     public Date getFechaSalida() {
         return fechaSalida;
     }

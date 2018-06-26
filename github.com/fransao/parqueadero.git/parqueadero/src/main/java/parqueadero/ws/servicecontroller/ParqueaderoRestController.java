@@ -28,7 +28,7 @@ import testdatabuilder.VehiculoTestDataBuilder;
 @RestController
 @RequestMapping("/parqueadero")
 @EnableAutoConfiguration
-public class VehiculoController {
+public class ParqueaderoRestController {
 
     @Autowired
     IAdministradorParqueaderoServicio administradorParqueaderoServicio;
@@ -77,22 +77,6 @@ public class VehiculoController {
         
         return vigilante.obtenerVehiculoIngresado(vehiculo);
     }
-    
-    /*@CrossOrigin(origins = "*")
-    @RequestMapping(value = "/vehiculo/{placa}", method = RequestMethod.PUT)
-    public GestionVehiculo registrarSalidaVehiculo(@PathVariable String placa) {
-        
-        GestionVehiculo gestionVehiculo = vigilanteServicio.estaVehiculoIngresado(new Vehiculo(placa));
-        if (gestionVehiculo != null) {
-            gestionVehiculo.setEstadoParqueo(EnumEstadoParqueo.SALIDA);
-            gestionVehiculo.setFechaSalida(new Date());
-            gestionVehiculo.setValor(0.0f);
-            
-            vigilanteServicio.registrarSalidaVehiculo(gestionVehiculo);
-        }
-        
-        return gestionVehiculo;
-    }*/
     
     @CrossOrigin(origins = "*")
     @RequestMapping(value = "/vehiculo/{placa}", method = RequestMethod.PUT)

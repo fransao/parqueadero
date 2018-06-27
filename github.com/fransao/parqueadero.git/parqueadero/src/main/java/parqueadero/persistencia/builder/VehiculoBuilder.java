@@ -162,6 +162,10 @@ public class VehiculoBuilder {
     }
     
     public static RecargoCilindraje convertirRecargoEntidadADominio (RecargoCilindrajeEntidad recargoEntidad) {
+        if (recargoEntidad == null) {
+            return null;
+        }
+        
         RecargoCilindraje recargo = new RecargoCilindraje();
         recargo.setTipoVehiculo(EnumTipoVehiculo.getEnumTipoVehiculo(recargoEntidad.getTipoVehiculo()));
         recargo.setIdCilindraje(recargoEntidad.getIdCilindraje());

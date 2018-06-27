@@ -1,13 +1,13 @@
 buildscript {
-	ext {
-		springBootVersion = '2.0.2.RELEASE'
-	}
-	repositories {
-		mavenCentral()
-	}
-	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-	}
+    ext {
+        springBootVersion = '2.0.2.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
 }
 
 apply plugin: 'java'
@@ -21,23 +21,30 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 
 dependencies {
-	compile('org.springframework.boot:spring-boot-starter-data-jpa')
-	compile('org.springframework.boot:spring-boot-starter-web')
-	
-	
+    compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    compile('org.springframework.boot:spring-boot-starter-web')
+    
+    
     compile('org.apache.axis:axis:1.4')
     compile('org.apache.axis:axis-jaxrpc:1.4')
     compile('org.apache.axis:axis-saaj:1.4')
     compile('axis:axis-wsdl4j:1.5.1')
     compile('commons-discovery:commons-discovery:0.2')
-	
-	runtime('com.h2database:h2')
-	testCompile('org.springframework.boot:spring-boot-starter-test')
+    
+    testCompile('org.seleniumhq.selenium:selenium-java:3.12.0')
+    testCompile('org.seleniumhq.selenium:selenium-support:3.12.0')
+    testCompile("io.github.bonigarcia:webdrivermanager:1.4.1") {
+        exclude group: 'org.seleniumhq.selenium'
+    }
+
+    
+    runtime('com.h2database:h2')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
 test {

@@ -73,4 +73,8 @@ public class Util {
         
         return calendar.getTime();
     }
+    
+    public static boolean isEmpty (String cadena) {
+        return cadena == null || cadena.isEmpty();
+    }
 }

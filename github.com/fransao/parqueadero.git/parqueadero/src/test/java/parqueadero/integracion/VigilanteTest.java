@@ -45,7 +45,6 @@ public class VigilanteTest {
     private static final int CILINDRAJE = 650;
     private static final String PLACA_MOTO = "TUV456";
     private static final String PLACA_SALIDA_MOTO = "SALM010";
-    private static final String PLACA_CARRO = "CMR842";
     private static final String PLACA_MAXIMO_10_MOTOS = "TCBV053";
     private static final String PLACA_MAXIMO_20_CARROS = "ZXO226";
     private static final String PLACA_CREAR_10_MOTOS = "MOTO";
@@ -55,7 +54,6 @@ public class VigilanteTest {
     private static final String TIPO_VEHICULO_MOTO = "Moto";
 
     private static final String NOMBRE_PARQUEO_INGRESADO = "Ingresado";
-    private static final String NOMBRE_PARQUEO_SALIDA    = "Salida";
     
     @Before
     public void setup() {

@@ -20,7 +20,7 @@ public class TcrmRestController {
     /**
      * Web Service end point
      */
-    private final static String _WEB_SERVICE_URL = "https://www.superfinanciera.gov.co/SuperfinancieraWebServiceTRM/TCRMServicesWebService/TCRMServicesWebService?WSDL";
+    private static final String _WEB_SERVICE_URL = "https://www.superfinanciera.gov.co/SuperfinancieraWebServiceTRM/TCRMServicesWebService/TCRMServicesWebService?WSDL";
     
     @CrossOrigin(origins = "*")
     @RequestMapping(value="/vehiculo/tcrm", method=RequestMethod.GET)

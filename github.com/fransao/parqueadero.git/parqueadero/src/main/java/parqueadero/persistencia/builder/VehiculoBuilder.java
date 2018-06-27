@@ -61,14 +61,6 @@ public class VehiculoBuilder {
         return cilindraje;
     }
     
-    private static Carro convertirVehiculoACarro (Vehiculo vehiculo) {
-        Carro carro = null;
-        if (vehiculo instanceof Carro) {
-            carro = (Carro) vehiculo;
-        }
-        return carro;
-    }
-    
     private static TipoVehiculoEntidad getTipoVehiculo (Vehiculo vehiculo) {
         TipoVehiculoEntidad tipoVehiculoEntidad = new TipoVehiculoEntidad();
         

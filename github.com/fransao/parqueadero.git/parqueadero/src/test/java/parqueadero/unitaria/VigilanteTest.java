@@ -22,7 +22,6 @@ public class VigilanteTest {
 
     private static final int CILINDRAJE = 650;
     private static final String PLACA = "AUV456";
-    private static final String PLACA_01 = "TUV456";
     
     @Test
     public void ingresarVehiculoIniciaPlacaA () {

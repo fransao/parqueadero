@@ -1,4 +1,4 @@
-package testdatabuilder;
+package parqueadero.testdatabuilder;
 
 import parqueadero.dominio.Moto;
 import parqueadero.enumerado.EnumTipoVehiculo;

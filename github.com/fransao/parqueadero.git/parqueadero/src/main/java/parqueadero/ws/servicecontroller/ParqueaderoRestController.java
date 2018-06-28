@@ -23,7 +23,6 @@ import parqueadero.enumerado.EnumEstadoParqueo;
 import parqueadero.enumerado.EnumTipoVehiculo;
 import parqueadero.servicio.IAdministradorParqueaderoServicio;
 import parqueadero.servicio.IVigilanteServicio;
-import testdatabuilder.VehiculoTestDataBuilder;
 
 @RestController
 @RequestMapping("/parqueadero")
@@ -47,7 +46,7 @@ public class ParqueaderoRestController {
     @RequestMapping(value="/vehiculo/{placa}")
     @ResponseBody
     public GestionVehiculo consultarVehiculoEnParqueadero(@PathVariable("placa") String placa) {
-        return vigilanteServicio.estaVehiculoIngresado(new VehiculoTestDataBuilder().conPlaca(placa).build());
+        return vigilanteServicio.estaVehiculoIngresado(new Vehiculo(placa));
     }
     
     @CrossOrigin(origins = "*")

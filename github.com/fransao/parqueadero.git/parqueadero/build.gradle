@@ -48,6 +48,9 @@ dependencies {
 }
 
 test {
+    useJUnit {
+        exclude '**/*FTest.class'
+    }
     jacoco {
         append = false
         destinationFile = file("jacoco/jacocoTest.exec")

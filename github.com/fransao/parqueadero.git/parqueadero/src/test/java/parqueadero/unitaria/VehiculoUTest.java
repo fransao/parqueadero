@@ -6,9 +6,9 @@ import org.junit.Test;
 
 import parqueadero.dominio.Vehiculo;
 import parqueadero.enumerado.EnumTipoVehiculo;
-import testdatabuilder.VehiculoTestDataBuilder;
+import parqueadero.testdatabuilder.VehiculoTestDataBuilder;
 
-public class VehiculoTest {
+public class VehiculoUTest {
 
     private static final String PLACA = "AAA123";
     

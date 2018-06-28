@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="parqueadero.unitaria.VigilanteUTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2018-06-28T20:13:46" hostname="FRANCISCO-SALAZAR" time="1.019">
+  <properties/>
+  <testcase name="obtenerTiempoVehiculoParque" classname="parqueadero.unitaria.VigilanteUTest" time="0.0"/>
+  <testcase name="ingresarVehiculoIniciaPlacaA" classname="parqueadero.unitaria.VigilanteUTest" time="1.019"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

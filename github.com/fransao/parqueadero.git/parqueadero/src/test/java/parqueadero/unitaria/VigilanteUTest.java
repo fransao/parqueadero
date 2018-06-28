@@ -15,10 +15,10 @@ import parqueadero.enumerado.EnumTipoVehiculo;
 import parqueadero.exception.ParqueaderoException;
 import parqueadero.servicio.IAdministradorParqueaderoServicio;
 import parqueadero.servicio.IVigilanteServicio;
+import parqueadero.testdatabuilder.MotoTestDataBuilder;
 import parqueadero.util.Util;
-import testdatabuilder.MotoTestDataBuilder;
 
-public class VigilanteTest {
+public class VigilanteUTest {
 
     private static final int CILINDRAJE = 650;
     private static final String PLACA = "AUV456";

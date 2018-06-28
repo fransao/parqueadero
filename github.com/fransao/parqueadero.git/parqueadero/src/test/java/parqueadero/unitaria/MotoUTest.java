@@ -6,9 +6,9 @@ import org.junit.Test;
 
 import parqueadero.dominio.Moto;
 import parqueadero.enumerado.EnumTipoVehiculo;
-import testdatabuilder.MotoTestDataBuilder;
+import parqueadero.testdatabuilder.MotoTestDataBuilder;
 
-public class MotoTest {
+public class MotoUTest {
 
     private static final String PLACA = "JHG742";
     private static final int CILINDRAJE = 650;

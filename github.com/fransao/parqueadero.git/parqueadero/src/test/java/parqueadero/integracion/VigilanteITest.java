@@ -25,16 +25,16 @@ import parqueadero.enumerado.EnumTipoVehiculo;
 import parqueadero.exception.ParqueaderoException;
 import parqueadero.servicio.IAdministradorParqueaderoServicio;
 import parqueadero.servicio.IVigilanteServicio;
+import parqueadero.testdatabuilder.CarroTestDataBuilder;
+import parqueadero.testdatabuilder.EstadoParqueoDataBuilder;
+import parqueadero.testdatabuilder.MotoTestDataBuilder;
+import parqueadero.testdatabuilder.TipoVehiculoDataBuilder;
+import parqueadero.testdatabuilder.VehiculoTestDataBuilder;
 import parqueadero.util.Util;
-import testdatabuilder.CarroTestDataBuilder;
-import testdatabuilder.EstadoParqueoDataBuilder;
-import testdatabuilder.MotoTestDataBuilder;
-import testdatabuilder.TipoVehiculoDataBuilder;
-import testdatabuilder.VehiculoTestDataBuilder;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest //(classes={ParqueaderoApplication.class})
-public class VigilanteTest {
+public class VigilanteITest {
 
     @Autowired
     private IVigilanteServicio vigilanteServicio;

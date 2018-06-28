@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import co.com.sc.nexura.superfinanciera.action.generic.services.trm.action.TCRMServicesInterface;
 import co.com.sc.nexura.superfinanciera.action.generic.services.trm.action.TCRMServicesInterfaceProxy;
 import co.com.sc.nexura.superfinanciera.action.generic.services.trm.action.TcrmResponse;
+import parqueadero.exception.ParqueaderoException;
 
 @RestController
 @RequestMapping("/parqueadero")
@@ -20,26 +21,24 @@ public class TcrmRestController {
     /**
      * Web Service end point
      */
-    private static final String _WEB_SERVICE_URL = "https://www.superfinanciera.gov.co/SuperfinancieraWebServiceTRM/TCRMServicesWebService/TCRMServicesWebService?WSDL";
+    private static final String WEB_SERVICE_URL = "https://www.superfinanciera.gov.co/SuperfinancieraWebServiceTRM/TCRMServicesWebService/TCRMServicesWebService?WSDL";
     
     @CrossOrigin(origins = "*")
     @RequestMapping(value="/vehiculo/tcrm", method=RequestMethod.GET)
-    public float consultarVehiculosEnParqueadero() {
-            
-            TCRMServicesInterface proxy = new TCRMServicesInterfaceProxy(_WEB_SERVICE_URL);
-            TcrmResponse tcrmResponse;
-            try {
-                tcrmResponse = proxy.queryTCRM(null);
-                if (tcrmResponse != null) {
-                    return tcrmResponse.getValue();
-                }
-            } catch (RemoteException e) {
+    public float consultarVehiculosEnParqueadero() throws RemoteException {
+        TCRMServicesInterface proxy = new TCRMServicesInterfaceProxy(WEB_SERVICE_URL);
+        TcrmResponse tcrmResponse;
+        try {
+            tcrmResponse = proxy.queryTCRM(null);
+            if (tcrmResponse != null) {
+                return tcrmResponse.getValue();
             }
-            
-            return 0.0f;
-            
-            
-        
+        } catch (RemoteException e) {
+            throw new ParqueaderoException(e.getMessage());
+        }
+
+        return 0.0f;
+
     }
     
 }

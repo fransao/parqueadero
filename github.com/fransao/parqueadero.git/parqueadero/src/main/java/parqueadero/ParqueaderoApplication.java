@@ -19,8 +19,6 @@ import parqueadero.enumerado.EnumEstadoParqueo;
 import parqueadero.enumerado.EnumTiempo;
 import parqueadero.enumerado.EnumTipoVehiculo;
 import parqueadero.servicio.IAdministradorParqueaderoServicio;
-import testdatabuilder.EstadoParqueoDataBuilder;
-import testdatabuilder.TipoVehiculoDataBuilder;
 
 @SpringBootApplication
 //@EnableJpaRepositories("parqueadero.repositorio")
@@ -99,9 +97,7 @@ public class ParqueaderoApplication {
     private void crearTipoVehiculo() {
         TipoVehiculo tipoVehiculo;
         for (EnumTipoVehiculo enumTipoVehiculo: EnumTipoVehiculo.values()) {
-            tipoVehiculo = new TipoVehiculoDataBuilder()
-                    .conTipoVehiculo(enumTipoVehiculo)
-                    .conNombre(enumTipoVehiculo.name()).build();
+            tipoVehiculo = new TipoVehiculo(enumTipoVehiculo, enumTipoVehiculo.name());
             administradorParqueaderoServicio.registrarTipoVehiculo(tipoVehiculo);
         }
         
@@ -110,9 +106,7 @@ public class ParqueaderoApplication {
     private void crearEstadoParqueo() {
         EstadoParqueo estadoParqueo;
         for (EnumEstadoParqueo enumEstadoParqueo: EnumEstadoParqueo.values()) {
-            estadoParqueo = new EstadoParqueoDataBuilder()
-                    .conCodEstadoParqueo(enumEstadoParqueo)
-                    .conNombreEstadoParqueo(enumEstadoParqueo.name()).build();
+            estadoParqueo = new EstadoParqueo(enumEstadoParqueo, enumEstadoParqueo.name());
 
             administradorParqueaderoServicio.registrarEstadoParqueo(estadoParqueo);
         }

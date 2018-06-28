@@ -1,4 +1,4 @@
-package testdatabuilder;
+package parqueadero.testdatabuilder;
 
 import parqueadero.dominio.Carro;
 import parqueadero.dominio.Vehiculo;

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="parqueadero.unitaria.CarroUTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2018-06-28T20:13:46" hostname="FRANCISCO-SALAZAR" time="0.0">
+  <properties/>
+  <testcase name="crearCarroTest" classname="parqueadero.unitaria.CarroUTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

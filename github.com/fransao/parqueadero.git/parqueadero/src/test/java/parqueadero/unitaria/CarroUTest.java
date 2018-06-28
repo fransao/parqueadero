@@ -5,9 +5,9 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import parqueadero.dominio.Carro;
-import testdatabuilder.CarroTestDataBuilder;
+import parqueadero.testdatabuilder.CarroTestDataBuilder;
 
-public class CarroTest {
+public class CarroUTest {
 
     private static final String PLACA = "XYZ123";
     

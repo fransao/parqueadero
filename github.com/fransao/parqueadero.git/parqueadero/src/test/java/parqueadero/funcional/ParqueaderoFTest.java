@@ -15,7 +15,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import io.github.bonigarcia.wdm.ChromeDriverManager;
 import parqueadero.util.Util;
 
-public class ParqueaderoTest {
+public class ParqueaderoFTest {
 
     private static final String URL_REGISTRAR_INGRESO_VEHICULO = "http://localhost:4200/vehiculo/create";
     private static final String URL_REGISTRAR_SALIDA_VEHICULO  = "http://localhost:4200/vehiculo/salida";

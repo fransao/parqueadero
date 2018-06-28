@@ -2,6 +2,8 @@ package parqueadero.dominio;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import parqueadero.enumerado.EnumEstadoParqueo;
 
 public class GestionVehiculo {
@@ -38,6 +40,7 @@ public class GestionVehiculo {
         this.vehiculo = vehiculo;
     }
     
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.sss", locale = "es_CO")
     public Date getFechaIngreso() {
         return fechaIngreso;
     }

@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-import parqueadero.dominio.EstadoParqueo;
+import parqueadero.dominio.EEstadoParqueo;
 import parqueadero.dominio.GestionVehiculo;
 import parqueadero.dominio.Moto;
 import parqueadero.dominio.RecargoCilindraje;
@@ -69,8 +69,8 @@ public class AdministradorParqueaderoServicio implements IAdministradorParqueade
     }
 
     @Override
-    public void registrarEstadoParqueo(EstadoParqueo estadoParqueo) {
-        repositorioEstadoParqueo.save(VehiculoBuilder.convertirEstadoParqueoAEntidad(estadoParqueo));
+    public void registrarEstadoParqueo(EEstadoParqueo eEstadoParqueo) {
+        repositorioEstadoParqueo.save(VehiculoBuilder.convertirEstadoParqueoAEntidad(eEstadoParqueo));
     }
     
     @Override
@@ -84,8 +84,8 @@ public class AdministradorParqueaderoServicio implements IAdministradorParqueade
     }
     
     @Override
-    public EstadoParqueo obtenerEstadoParqueo(EstadoParqueo estadoParqueo) {
-         Optional<EstadoParqueoEntidad> optEstadoParqueo = repositorioEstadoParqueo.findById(estadoParqueo.getEstadoParqueo().getEstadoParqueo());
+    public EEstadoParqueo obtenerEstadoParqueo(EEstadoParqueo eEstadoParqueo) {
+         Optional<EstadoParqueoEntidad> optEstadoParqueo = repositorioEstadoParqueo.findById(eEstadoParqueo.getEstadoParqueo().getEstadoParqueo());
          if (optEstadoParqueo.isPresent()) {
              return VehiculoBuilder.convertirEstadoParqueoADominio(optEstadoParqueo.get());
          }
@@ -97,14 +97,14 @@ public class AdministradorParqueaderoServicio implements IAdministradorParqueade
         
         List<TarifaXTipoVehiculoEntidad> listTarifasTipoVehiculo = StreamSupport.stream(repositorioTarifa.findAll().spliterator(), false).collect(Collectors.toList());
         
-        return listTarifasTipoVehiculo.stream().map(VehiculoBuilder::convertirTarifaXTipoVehiculoADomino).filter(t -> t != null).collect(Collectors.toList());
+        return listTarifasTipoVehiculo.stream().map(VehiculoBuilder::convertirTarifaXTipoVehiculoADomino).collect(Collectors.toList());
     }
 
     @Override
     public List<RecargoCilindraje> obtenerRecargos() {
         List<RecargoCilindrajeEntidad> listRecargo = StreamSupport.stream(repositorioRecargo.findAll().spliterator(), false).collect(Collectors.toList());
         
-        return listRecargo.stream().map(VehiculoBuilder::convertirRecargoEntidadADominio).filter(r -> r != null).collect(Collectors.toList());
+        return listRecargo.stream().map(VehiculoBuilder::convertirRecargoEntidadADominio).collect(Collectors.toList());
     }
 
     @Override
@@ -123,7 +123,7 @@ public class AdministradorParqueaderoServicio implements IAdministradorParqueade
 
     @Override
     public void registrarTarifas(List<TarifaXTipoVehiculo> listTarifaVehiculo) {
-        List<TarifaXTipoVehiculoEntidad> listTarifaEntidad = listTarifaVehiculo.stream().map(VehiculoBuilder::convertirTarifaXTipoVehiculoAEntidad).filter(r -> r != null).collect(Collectors.toList());
+        List<TarifaXTipoVehiculoEntidad> listTarifaEntidad = listTarifaVehiculo.stream().map(VehiculoBuilder::convertirTarifaXTipoVehiculoAEntidad).collect(Collectors.toList());
         for (TarifaXTipoVehiculoEntidad tarifaEntidad: listTarifaEntidad) {
             repositorioTarifa.save(tarifaEntidad);
         }
@@ -132,7 +132,7 @@ public class AdministradorParqueaderoServicio implements IAdministradorParqueade
     @Override
     public List<GestionVehiculo> obtenerVehiculosEnElParqueadero() {
         List<GestionVehiculoEntidad> vehiculosEnParqueadero = StreamSupport.stream(repositorioGestionParqueadero.obtenerVehiculosEnElParqueadero().spliterator(), false).collect(Collectors.toList());
-        return vehiculosEnParqueadero.stream().map(VehiculoBuilder::convertirGestionVehiculoADominio).filter(r -> r != null).collect(Collectors.toList());
+        return vehiculosEnParqueadero.stream().map(VehiculoBuilder::convertirGestionVehiculoADominio).collect(Collectors.toList());
     }
 
 }

@@ -11,7 +11,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
-import parqueadero.dominio.EstadoParqueo;
+import parqueadero.dominio.EEstadoParqueo;
 import parqueadero.dominio.RecargoCilindraje;
 import parqueadero.dominio.TarifaXTipoVehiculo;
 import parqueadero.dominio.TipoVehiculo;
@@ -104,11 +104,11 @@ public class ParqueaderoApplication {
     }
 
     private void crearEstadoParqueo() {
-        EstadoParqueo estadoParqueo;
+        EEstadoParqueo eEstadoParqueo;
         for (EnumEstadoParqueo enumEstadoParqueo: EnumEstadoParqueo.values()) {
-            estadoParqueo = new EstadoParqueo(enumEstadoParqueo, enumEstadoParqueo.name());
+            eEstadoParqueo = new EEstadoParqueo(enumEstadoParqueo, enumEstadoParqueo.name());
 
-            administradorParqueaderoServicio.registrarEstadoParqueo(estadoParqueo);
+            administradorParqueaderoServicio.registrarEstadoParqueo(eEstadoParqueo);
         }
         
     }

@@ -2,7 +2,7 @@ package parqueadero.servicio;
 
 import java.util.List;
 
-import parqueadero.dominio.EstadoParqueo;
+import parqueadero.dominio.EEstadoParqueo;
 import parqueadero.dominio.GestionVehiculo;
 import parqueadero.dominio.RecargoCilindraje;
 import parqueadero.dominio.TarifaXTipoVehiculo;
@@ -20,10 +20,10 @@ public interface IAdministradorParqueaderoServicio {
     List<GestionVehiculo> obtenerVehiculosEnElParqueadero();
     
     void registrarTipoVehiculo (TipoVehiculo tipoVehiculo);
-    void registrarEstadoParqueo (EstadoParqueo estadoParqueo);
+    void registrarEstadoParqueo (EEstadoParqueo eEstadoParqueo);
     TipoVehiculo obtenerTipoVehiculo (EnumTipoVehiculo tipoVehiculo);
     
     Vehiculo obtenerVehiculoPorPlaca (String placa);
     
-    EstadoParqueo obtenerEstadoParqueo(EstadoParqueo estadoParqueo);
+    EEstadoParqueo obtenerEstadoParqueo(EEstadoParqueo eEstadoParqueo);
 }

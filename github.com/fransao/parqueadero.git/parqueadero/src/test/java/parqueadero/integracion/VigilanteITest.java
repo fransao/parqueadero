@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import parqueadero.dominio.EstadoParqueo;
+import parqueadero.dominio.EEstadoParqueo;
 import parqueadero.dominio.RecargoCilindraje;
 import parqueadero.dominio.TarifaXTipoVehiculo;
 import parqueadero.dominio.TipoVehiculo;
@@ -122,13 +122,13 @@ public class VigilanteITest {
     }
 
     private void crearEstadoParqueo() {
-        EstadoParqueo estadoParqueo;
+        EEstadoParqueo eEstadoParqueo;
         for (EnumEstadoParqueo enumEstadoParqueo: EnumEstadoParqueo.values()) {
-            estadoParqueo = new EstadoParqueoDataBuilder()
+            eEstadoParqueo = new EstadoParqueoDataBuilder()
                     .conCodEstadoParqueo(enumEstadoParqueo)
                     .conNombreEstadoParqueo(enumEstadoParqueo.name()).build();
 
-            administradorParqueaderoServicio.registrarEstadoParqueo(estadoParqueo);
+            administradorParqueaderoServicio.registrarEstadoParqueo(eEstadoParqueo);
         }
         
     }
@@ -150,15 +150,15 @@ public class VigilanteITest {
     @Test
     public void ingresarEstadoParqueo () {
         // arrange
-        EstadoParqueo estadoParqueo = new EstadoParqueoDataBuilder()
+        EEstadoParqueo eEstadoParqueo = new EstadoParqueoDataBuilder()
                                         .conCodEstadoParqueo(EnumEstadoParqueo.INGRESADO)
                                         .conNombreEstadoParqueo(NOMBRE_PARQUEO_INGRESADO).build();
         
         // act
-        administradorParqueaderoServicio.registrarEstadoParqueo(estadoParqueo);
+        administradorParqueaderoServicio.registrarEstadoParqueo(eEstadoParqueo);
         
         //assert
-        Assert.assertTrue(administradorParqueaderoServicio.obtenerEstadoParqueo(estadoParqueo) != null);
+        Assert.assertTrue(administradorParqueaderoServicio.obtenerEstadoParqueo(eEstadoParqueo) != null);
     }
     
     @Test

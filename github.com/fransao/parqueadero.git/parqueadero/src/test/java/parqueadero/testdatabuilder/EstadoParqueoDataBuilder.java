@@ -1,6 +1,6 @@
 package parqueadero.testdatabuilder;
 
-import parqueadero.dominio.EstadoParqueo;
+import parqueadero.dominio.EEstadoParqueo;
 import parqueadero.enumerado.EnumEstadoParqueo;
 
 public class EstadoParqueoDataBuilder {
@@ -27,7 +27,7 @@ public class EstadoParqueoDataBuilder {
         return this;
     }
     
-    public EstadoParqueo build() {
-        return new EstadoParqueo(codEstadoParqueo, nombreEstadoParqueo);
+    public EEstadoParqueo build() {
+        return new EEstadoParqueo(codEstadoParqueo, nombreEstadoParqueo);
     }
 }

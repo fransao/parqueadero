@@ -1,7 +1,7 @@
 package parqueadero.persistencia.builder;
 
 import parqueadero.dominio.Carro;
-import parqueadero.dominio.EstadoParqueo;
+import parqueadero.dominio.EEstadoParqueo;
 import parqueadero.dominio.GestionVehiculo;
 import parqueadero.dominio.Moto;
 import parqueadero.dominio.RecargoCilindraje;
@@ -120,20 +120,20 @@ public class VehiculoBuilder {
         return estadoParqueoEntidad;
     }
 
-    public static EstadoParqueoEntidad convertirEstadoParqueoAEntidad(EstadoParqueo estadoParqueo) {
+    public static EstadoParqueoEntidad convertirEstadoParqueoAEntidad(EEstadoParqueo eEstadoParqueo) {
         EstadoParqueoEntidad estadoParqueoEntidad = new EstadoParqueoEntidad();
-        estadoParqueoEntidad.setEstado(estadoParqueo.getEstadoParqueo().getEstadoParqueo());
-        estadoParqueoEntidad.setNombreEstado(estadoParqueo.getNombreEstadoParqueo());
+        estadoParqueoEntidad.setEstado(eEstadoParqueo.getEstadoParqueo().getEstadoParqueo());
+        estadoParqueoEntidad.setNombreEstado(eEstadoParqueo.getNombreEstadoParqueo());
         
         return estadoParqueoEntidad;
     }
 
-    public static EstadoParqueo convertirEstadoParqueoADominio(EstadoParqueoEntidad estadoParqueoEntidad) {
-        EstadoParqueo estadoParqueo = new EstadoParqueo();
-        estadoParqueo.setEstadoParqueo(EnumEstadoParqueo.getEnumEstadoParqueo(estadoParqueoEntidad.getEstado()));
-        estadoParqueo.setNombreEstadoParqueo(estadoParqueoEntidad.getNombreEstado());
+    public static EEstadoParqueo convertirEstadoParqueoADominio(EstadoParqueoEntidad estadoParqueoEntidad) {
+        EEstadoParqueo eEstadoParqueo = new EEstadoParqueo();
+        eEstadoParqueo.setEstadoParqueo(EnumEstadoParqueo.getEnumEstadoParqueo(estadoParqueoEntidad.getEstado()));
+        eEstadoParqueo.setNombreEstadoParqueo(estadoParqueoEntidad.getNombreEstado());
         
-        return estadoParqueo;
+        return eEstadoParqueo;
     }
 
     public static TarifaXTipoVehiculo convertirTarifaXTipoVehiculoADomino (TarifaXTipoVehiculoEntidad tarifaEntidad) {

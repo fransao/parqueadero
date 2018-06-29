@@ -34,14 +34,6 @@ public class RecargoCilindrajeEntidad implements Serializable {
         return valor;
     }
 
-    public Integer getItemCilindraje() {
-        return idCilindraje;
-    }
-
-    public void setItemCilindraje(Integer itemCilindraje) {
-        this.idCilindraje = itemCilindraje;
-    }
-
     public Integer getTipoVehiculo() {
         return tipoVehiculo;
     }

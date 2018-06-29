@@ -2,26 +2,26 @@ package parqueadero.dominio;
 
 import parqueadero.enumerado.EnumEstadoParqueo;
 
-public class EstadoParqueo {
+public class EEstadoParqueo {
 
-    private EnumEstadoParqueo estadoParqueo;
+    private EnumEstadoParqueo estado;
     private String nombreEstadoParqueo;
     
-    public EstadoParqueo() {
+    public EEstadoParqueo() {
         
     }
     
-    public EstadoParqueo (EnumEstadoParqueo estadoParqueo, String nombreEstadoParqueo) {
-        this.estadoParqueo = estadoParqueo;
+    public EEstadoParqueo (EnumEstadoParqueo estadoParqueo, String nombreEstadoParqueo) {
+        this.estado = estadoParqueo;
         this.nombreEstadoParqueo = nombreEstadoParqueo;
     }
     
     public EnumEstadoParqueo getEstadoParqueo() {
-        return estadoParqueo;
+        return estado;
     }
     
     public void setEstadoParqueo(EnumEstadoParqueo estadoParqueo) {
-        this.estadoParqueo = estadoParqueo;
+        this.estado = estadoParqueo;
     }
     
     public String getNombreEstadoParqueo() {

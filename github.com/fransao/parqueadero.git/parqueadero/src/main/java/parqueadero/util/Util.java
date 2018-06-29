@@ -2,6 +2,7 @@ package parqueadero.util;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class Util {
 
@@ -18,8 +19,6 @@ public class Util {
         if (diferencia > 86400) {
             dias = diferencia / 86400;
         }
-        
-        
         
         return dias;
     }
@@ -77,4 +76,9 @@ public class Util {
     public static boolean isEmpty (String cadena) {
         return cadena == null || cadena.isEmpty();
     }
+    
+    public static boolean isEmpty (List<?> list) {
+        return list == null || list.isEmpty();
+    }
+    
 }

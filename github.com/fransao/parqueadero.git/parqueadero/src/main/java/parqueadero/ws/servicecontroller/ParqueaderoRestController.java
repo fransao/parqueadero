@@ -68,11 +68,7 @@ public class ParqueaderoRestController {
         }
         
         Vigilante vigilante = new Vigilante (vigilanteServicio, administradorParqueaderoServicio);
-        
-        GestionVehiculo obtenerVehiculoIngresado = vigilante.obtenerVehiculoIngresado(vehiculo);
-        if (obtenerVehiculoIngresado == null) {
-            vigilante.registrarIngresoVehiculoAParqueadero(vehiculo, new Date());
-        }
+        vigilante.registrarIngresoVehiculoAParqueadero(vehiculo, new Date());
         
         return vigilante.obtenerVehiculoIngresado(vehiculo);
     }

@@ -1,5 +1,7 @@
 package parqueadero.servicio;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +13,7 @@ import parqueadero.persistencia.entidad.GestionVehiculoEntidad;
 import parqueadero.repositorio.IRepositorioEstadoParqueo;
 import parqueadero.repositorio.IRepositorioGestionParqueadero;
 import parqueadero.repositorio.IRepositorioVehiculo;
+import parqueadero.util.Util;
 
 @Service
 public class VigilanteServicio implements IVigilanteServicio {
@@ -31,8 +34,11 @@ public class VigilanteServicio implements IVigilanteServicio {
 
     @Override
     public GestionVehiculo estaVehiculoIngresado(Vehiculo vehiculo) {
-        GestionVehiculoEntidad optGestionVehiculo = repositorioGestionParqueadero.estaVehiculoIngresado(vehiculo.getPlaca(), EnumEstadoParqueo.INGRESADO.getEstadoParqueo());
-        return optGestionVehiculo == null ? null : VehiculoBuilder.convertirGestionVehiculoADominio(optGestionVehiculo);
+        List<GestionVehiculoEntidad> gestionVehiculo = repositorioGestionParqueadero.estaVehiculoIngresado(vehiculo.getPlaca(), EnumEstadoParqueo.INGRESADO.getEstadoParqueo());
+        if (!Util.isEmpty(gestionVehiculo)) {
+            return VehiculoBuilder.convertirGestionVehiculoADominio(gestionVehiculo.get(0));
+        }
+        return null;
     }
 
     @Override

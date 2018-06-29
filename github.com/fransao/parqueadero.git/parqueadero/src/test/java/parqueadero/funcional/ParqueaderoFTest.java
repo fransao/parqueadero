@@ -5,7 +5,6 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -52,15 +51,28 @@ public class ParqueaderoFTest {
         botonAceptarElemento.click();
         
         WebDriverWait wait = new WebDriverWait(driver, 5);
-        WebElement mensajeElement = driver.findElement(By.id("mensaje"));
+        WebElement mensajeElement = driver.findElement(By.id("parrafomensaje"));
         wait.until(ExpectedConditions.visibilityOf(mensajeElement));
         
-        Assert.assertTrue("Se ingreso el vehiculo", mensajeElement.getText().contains("placa"));
+        Assert.assertTrue("Se ingreso el vehiculo", mensajeElement.getText().contains("ingresado"));
         
     }
 
     @Test
-    public void comprobarFlujoCorrectoObtenerVehicilosEnElParqueadero() throws InterruptedException {
+    public void comprobarFlujoCorrectoObtenerVehiculosEnElParqueadero () throws InterruptedException {
+        driver.get(URL_CONSULTAR_VEHICULOS_PARQUEADERO);
+        
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        
+        WebElement vehiculosElement = driver.findElement(By.id("vehiculos"));
+        
+        wait.until(ExpectedConditions.visibilityOf(vehiculosElement));
+        
+        Assert.assertTrue("Vehiculos en el parqueadero", vehiculosElement.isDisplayed());
+    }
+    
+    @Test
+    public void comprobarFlujoCorrectoRegistrarSalidaVehiculo () throws InterruptedException {
         driver.get(URL_REGISTRAR_SALIDA_VEHICULO);
         
         WebElement placaElemento = driver.findElement(By.id("placa"));
@@ -75,21 +87,9 @@ public class ParqueaderoFTest {
         
         wait.until(ExpectedConditions.visibilityOf(placaElement));
         
-        Assert.assertTrue("Se registro la salida del vehiculo", !Util.isEmpty(placaElement.getText()) && placaElement.getText().contains("exitosa"));
+        Assert.assertTrue("Se registro la salida del vehiculo", !Util.isEmpty(placaElement.getText()) && placaElement.getText().contains("exitoso"));
         
     }
     
-    @Test
-    public void comprobarFlujoCorrectoRegistrarSalidaVehiculo() throws InterruptedException {
-        driver.get(URL_CONSULTAR_VEHICULOS_PARQUEADERO);
-        
-        WebDriverWait wait = new WebDriverWait(driver, 5);
-        
-        WebElement vehiculosElement = driver.findElement(By.id("vehiculos"));
-        
-        wait.until(ExpectedConditions.visibilityOf(vehiculosElement));
-        
-        Assert.assertTrue("Se registro la salida del vehiculo", vehiculosElement.isDisplayed());
-    }
 
 }

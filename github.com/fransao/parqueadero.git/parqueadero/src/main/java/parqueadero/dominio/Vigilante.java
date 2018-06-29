@@ -22,6 +22,7 @@ public class Vigilante {
     public static final String MSJ_MAXIMO_CARROS_PARQUEADOS = "El parqueadero solo puede tener máximo " + Parqueadero.CANTIDAD_MAXIMA_CARROS + " carros";
     public static final String MSJ_MAXIMO_MOTOS_PARQUEADOOS = "El parqueadero solo puede tener máximo " + Parqueadero.CANTIDAD_MAXIMA_MOTOS + " motos";
     public static final String MSJ_VEHICULO_YA_ESTA_INGRESADO = "Ya hay un vehiculo ingresado con esa placa";
+    public static final String MSJ_VEHICULO_NO_ESTA_INGRESADO = "El vehiculo no esta ingresado";
     
     private IVigilanteServicio vigilanteServicio;
     private IAdministradorParqueaderoServicio administradorParqueaderoServicio;

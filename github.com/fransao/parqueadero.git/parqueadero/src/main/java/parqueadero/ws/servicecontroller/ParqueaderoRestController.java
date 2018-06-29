@@ -21,6 +21,7 @@ import parqueadero.dominio.Vehiculo;
 import parqueadero.dominio.Vigilante;
 import parqueadero.enumerado.EnumEstadoParqueo;
 import parqueadero.enumerado.EnumTipoVehiculo;
+import parqueadero.exception.ParqueaderoException;
 import parqueadero.servicio.IAdministradorParqueaderoServicio;
 import parqueadero.servicio.IVigilanteServicio;
 
@@ -86,6 +87,8 @@ public class ParqueaderoRestController {
             gestionVehiculo.setValor(vigilante.generarCobroVechiculoParqueo(gestionVehiculo));
             
             vigilanteServicio.registrarSalidaVehiculo(gestionVehiculo);
+        } else {
+            throw new ParqueaderoException(Vigilante.MSJ_VEHICULO_NO_ESTA_INGRESADO);
         }
         
         return gestionVehiculo;

@@ -1,5 +1,11 @@
 package parqueadero.dominio;
 
+import static parqueadero.util.ConstanteManager.MSJ_MAXIMO_CARROS_PARQUEADOS;
+import static parqueadero.util.ConstanteManager.MSJ_MAXIMO_MOTOS_PARQUEADOOS;
+import static parqueadero.util.ConstanteManager.MSJ_PARQUEADERO_VEHICULO;
+import static parqueadero.util.ConstanteManager.MSJ_VEHICULO_NO_AUTORIZADO;
+import static parqueadero.util.ConstanteManager.MSJ_VEHICULO_YA_ESTA_INGRESADO;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -12,17 +18,10 @@ import parqueadero.enumerado.EnumTipoVehiculo;
 import parqueadero.exception.ParqueaderoException;
 import parqueadero.servicio.IAdministradorParqueaderoServicio;
 import parqueadero.servicio.IVigilanteServicio;
+import parqueadero.util.ConstanteManager;
 import parqueadero.util.Util;
 
 public class Vigilante {
-
-    private static final String MSJ_PARQUEADERO_VEHICULO   = "El parqueadero solo permite ingresar Carros y Motos";
-    public static final  String MSJ_VEHICULO_NO_AUTORIZADO = "El vehiculo no esta autorizado para ingresar (puede ingresar el domingo o lunes)";
-    
-    public static final String MSJ_MAXIMO_CARROS_PARQUEADOS = "El parqueadero solo puede tener máximo " + Parqueadero.CANTIDAD_MAXIMA_CARROS + " carros";
-    public static final String MSJ_MAXIMO_MOTOS_PARQUEADOOS = "El parqueadero solo puede tener máximo " + Parqueadero.CANTIDAD_MAXIMA_MOTOS + " motos";
-    public static final String MSJ_VEHICULO_YA_ESTA_INGRESADO = "Ya hay un vehiculo ingresado con esa placa";
-    public static final String MSJ_VEHICULO_NO_ESTA_INGRESADO = "El vehiculo no esta ingresado";
     
     private IVigilanteServicio vigilanteServicio;
     private IAdministradorParqueaderoServicio administradorParqueaderoServicio;
@@ -32,7 +31,9 @@ public class Vigilante {
         this.administradorParqueaderoServicio = administradorParqueaderoServicio;
     }
     
-    public void registrarIngresoVehiculoAParqueadero(Vehiculo vehiculo, Date fechaIngreso) {
+    public GestionVehiculo registrarIngresoVehiculoAParqueadero(Vehiculo vehiculo, Date fechaIngreso) {
+        
+        GestionVehiculo gestionVehiculo = null;
         
         if (placaIniciaA(vehiculo.getPlaca())) {
             validarDiaDomingoLunes(fechaIngreso);
@@ -44,13 +45,24 @@ public class Vigilante {
             throw new ParqueaderoException(MSJ_VEHICULO_YA_ESTA_INGRESADO);
         }
         
-        if (vehiculo instanceof Moto || vehiculo instanceof Carro) {
+        if (vehiculo instanceof RequestVehiculo) {
             
-            ingresarVehiculo(vehiculo, fechaIngreso);
+            if (EnumTipoVehiculo.MOTO.equals(vehiculo.getTipoVehiculo())) {
+                vehiculo = ((RequestVehiculo) vehiculo).getMoto();
+            } else if (EnumTipoVehiculo.CARRO.equals(vehiculo.getTipoVehiculo())) {
+                vehiculo = ((RequestVehiculo) vehiculo).getCarro();
+            } else {
+                vehiculo = ((RequestVehiculo) vehiculo).getVehiculo(); 
+            }
+        }
+        
+        if (vehiculo instanceof Moto || vehiculo instanceof Carro) {
+            gestionVehiculo = ingresarVehiculo(vehiculo, fechaIngreso);
         } else {
             throw new ParqueaderoException(MSJ_PARQUEADERO_VEHICULO);
         }
         
+        return gestionVehiculo;
     }
 
     public void desocuparParqueadero () {
@@ -165,11 +177,17 @@ public class Vigilante {
         return placa.startsWith("A") || placa.startsWith("a");
     }
 
-    private void ingresarVehiculo (Vehiculo vehiculo, Date fechaIngreso) {
+    private GestionVehiculo ingresarVehiculo (Vehiculo vehiculo, Date fechaIngreso) {
+        
+        if (administradorParqueaderoServicio.obtenerVehiculoPorPlaca(vehiculo.getPlaca()) == null) {
+            vigilanteServicio.registrarPlacaVehiculo(vehiculo);
+        }
+        
         GestionVehiculo ingresoVehiculo = new GestionVehiculo(vehiculo, fechaIngreso);
         ingresoVehiculo.setEstadoParqueo(EnumEstadoParqueo.INGRESADO);
         ingresoVehiculo.setFechaIngreso(fechaIngreso);
-        vigilanteServicio.registrarIngresoVehiculo(ingresoVehiculo);
+        
+        return vigilanteServicio.registrarIngresoVehiculo(ingresoVehiculo);
     }
     
     public GestionVehiculo obtenerVehiculoIngresado(Vehiculo vehiculo) {
@@ -180,4 +198,18 @@ public class Vigilante {
         return vigilanteServicio.estaVehiculoIngresado(vehiculo) != null;
     }
     
+    public GestionVehiculo registrarSalidaVehiculo(String placa) {
+        GestionVehiculo gestionVehiculo = obtenerVehiculoIngresado(new Vehiculo(placa));
+        if (gestionVehiculo != null) {
+            gestionVehiculo.setEstadoParqueo(EnumEstadoParqueo.SALIDA);
+            gestionVehiculo.setFechaSalida(new Date());
+            gestionVehiculo.setValor(generarCobroVechiculoParqueo(gestionVehiculo));
+
+            gestionVehiculo = vigilanteServicio.registrarSalidaVehiculo(gestionVehiculo);
+        } else {
+            throw new ParqueaderoException(ConstanteManager.MSJ_VEHICULO_NO_ESTA_INGRESADO);
+        }
+        
+        return gestionVehiculo;
+    }
 }

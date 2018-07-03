@@ -28,8 +28,8 @@ public class VigilanteServicio implements IVigilanteServicio {
     IRepositorioVehiculo repositorioVehiculo;
     
     @Override
-    public void registrarIngresoVehiculo(GestionVehiculo gestionVehiculo) {
-        repositorioGestionParqueadero.save(VehiculoBuilder.convertirGestionVehiculoAEntidad(gestionVehiculo));
+    public GestionVehiculo registrarIngresoVehiculo(GestionVehiculo gestionVehiculo) {
+        return VehiculoBuilder.convertirGestionVehiculoADominio(repositorioGestionParqueadero.save(VehiculoBuilder.convertirGestionVehiculoAEntidad(gestionVehiculo)));
     }
 
     @Override
@@ -42,8 +42,8 @@ public class VigilanteServicio implements IVigilanteServicio {
     }
 
     @Override
-    public void registrarSalidaVehiculo(GestionVehiculo gestionVehiculo) {
-        repositorioGestionParqueadero.save(VehiculoBuilder.convertirGestionVehiculoAEntidad(gestionVehiculo));
+    public GestionVehiculo registrarSalidaVehiculo(GestionVehiculo gestionVehiculo) {
+        return VehiculoBuilder.convertirGestionVehiculoADominio(repositorioGestionParqueadero.save(VehiculoBuilder.convertirGestionVehiculoAEntidad(gestionVehiculo)));
     }
 
     public void registrarPlacaVehiculo(Vehiculo vehiculo) {

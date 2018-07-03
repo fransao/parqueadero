@@ -19,9 +19,6 @@ import parqueadero.dominio.GestionVehiculo;
 import parqueadero.dominio.RequestVehiculo;
 import parqueadero.dominio.Vehiculo;
 import parqueadero.dominio.Vigilante;
-import parqueadero.enumerado.EnumEstadoParqueo;
-import parqueadero.enumerado.EnumTipoVehiculo;
-import parqueadero.exception.ParqueaderoException;
 import parqueadero.servicio.IAdministradorParqueaderoServicio;
 import parqueadero.servicio.IVigilanteServicio;
 
@@ -55,23 +52,8 @@ public class ParqueaderoRestController {
     @RequestMapping(value = "/vehiculo/")
     public GestionVehiculo registrarIngresoVehiculo(@RequestBody RequestVehiculo requestVehiculo) {
  
-        Vehiculo vehiculo; 
-        if (EnumTipoVehiculo.MOTO.equals(requestVehiculo.getTipoVehiculo())) {
-            vehiculo = requestVehiculo.getMoto();
-        } else if (EnumTipoVehiculo.CARRO.equals(requestVehiculo.getTipoVehiculo())) {
-            vehiculo = requestVehiculo.getCarro();
-        } else {
-            vehiculo = requestVehiculo.getVehiculo(); 
-        }
-        
-        if (administradorParqueaderoServicio.obtenerVehiculoPorPlaca(vehiculo.getPlaca()) == null) {
-            vigilanteServicio.registrarPlacaVehiculo(vehiculo);
-        }
-        
         Vigilante vigilante = new Vigilante (vigilanteServicio, administradorParqueaderoServicio);
-        vigilante.registrarIngresoVehiculoAParqueadero(vehiculo, new Date());
-        
-        return vigilante.obtenerVehiculoIngresado(vehiculo);
+        return vigilante.registrarIngresoVehiculoAParqueadero(requestVehiculo, new Date());
     }
     
     @CrossOrigin(origins = "*")
@@ -79,19 +61,8 @@ public class ParqueaderoRestController {
     public GestionVehiculo calcularCobroParqueadero(@PathVariable String placa) {
         
         Vigilante vigilante = new Vigilante (vigilanteServicio, administradorParqueaderoServicio);
+        return vigilante.registrarSalidaVehiculo(placa);
         
-        GestionVehiculo gestionVehiculo = vigilanteServicio.estaVehiculoIngresado(new Vehiculo(placa));
-        if (gestionVehiculo != null) {
-            gestionVehiculo.setEstadoParqueo(EnumEstadoParqueo.SALIDA);
-            gestionVehiculo.setFechaSalida(new Date());
-            gestionVehiculo.setValor(vigilante.generarCobroVechiculoParqueo(gestionVehiculo));
-            
-            vigilanteServicio.registrarSalidaVehiculo(gestionVehiculo);
-        } else {
-            throw new ParqueaderoException(Vigilante.MSJ_VEHICULO_NO_ESTA_INGRESADO);
-        }
-        
-        return gestionVehiculo;
     }
     
 }

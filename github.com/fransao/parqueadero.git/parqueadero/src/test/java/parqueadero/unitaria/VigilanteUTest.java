@@ -9,6 +9,8 @@ import java.util.Date;
 import org.junit.Assert;
 import org.junit.Test;
 
+import static parqueadero.util.ConstanteManager.MSJ_VEHICULO_NO_AUTORIZADO;
+
 import parqueadero.dominio.Moto;
 import parqueadero.dominio.Vigilante;
 import parqueadero.enumerado.EnumTipoVehiculo;
@@ -39,7 +41,7 @@ public class VigilanteUTest {
             fail();
         } catch (ParqueaderoException pe) {
             // assert
-            Assert.assertEquals(Vigilante.MSJ_VEHICULO_NO_AUTORIZADO, pe.getMessage());
+            Assert.assertEquals(MSJ_VEHICULO_NO_AUTORIZADO, pe.getMessage());
         }
         
     }

@@ -13,6 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static parqueadero.util.ConstanteManager.MSJ_MAXIMO_MOTOS_PARQUEADOOS;
+import static parqueadero.util.ConstanteManager.MSJ_MAXIMO_CARROS_PARQUEADOS;
+
 import parqueadero.dominio.EEstadoParqueo;
 import parqueadero.dominio.RecargoCilindraje;
 import parqueadero.dominio.TarifaXTipoVehiculo;
@@ -166,7 +169,7 @@ public class VigilanteITest {
         
         // arrange
         Vehiculo moto = new MotoTestDataBuilder(PLACA_MOTO, EnumTipoVehiculo.MOTO).conCilindraje(CILINDRAJE).build();
-        vigilanteServicio.registrarPlacaVehiculo(moto);
+        
         Vigilante vigilante = new Vigilante (vigilanteServicio, administradorParqueaderoServicio);
         
         // act
@@ -194,7 +197,7 @@ public class VigilanteITest {
             vigilante.validarDisponibilidad(moto);
         } catch (ParqueaderoException pe) {
             // assert
-            Assert.assertEquals(Vigilante.MSJ_MAXIMO_MOTOS_PARQUEADOOS, pe.getMessage());
+            Assert.assertEquals(MSJ_MAXIMO_MOTOS_PARQUEADOOS, pe.getMessage());
         }
     }
     
@@ -214,7 +217,7 @@ public class VigilanteITest {
             vigilante.validarDisponibilidad(carro);
         } catch (ParqueaderoException pe) {
             // assert
-            Assert.assertEquals(Vigilante.MSJ_MAXIMO_CARROS_PARQUEADOS, pe.getMessage());
+            Assert.assertEquals(MSJ_MAXIMO_CARROS_PARQUEADOS, pe.getMessage());
         }
     }
     

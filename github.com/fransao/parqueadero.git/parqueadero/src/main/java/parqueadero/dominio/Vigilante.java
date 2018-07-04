@@ -179,9 +179,7 @@ public class Vigilante {
 
     private GestionVehiculo ingresarVehiculo (Vehiculo vehiculo, Date fechaIngreso) {
         
-        if (administradorParqueaderoServicio.obtenerVehiculoPorPlaca(vehiculo.getPlaca()) == null) {
-            vigilanteServicio.registrarPlacaVehiculo(vehiculo);
-        }
+        vigilanteServicio.registrarPlacaVehiculo(vehiculo);
         
         GestionVehiculo ingresoVehiculo = new GestionVehiculo(vehiculo, fechaIngreso);
         ingresoVehiculo.setEstadoParqueo(EnumEstadoParqueo.INGRESADO);

@@ -16,6 +16,7 @@ import parqueadero.dominio.RecargoCilindraje;
 import parqueadero.dominio.TarifaXTipoVehiculo;
 import parqueadero.dominio.TipoVehiculo;
 import parqueadero.dominio.Vehiculo;
+import parqueadero.enumerado.EnumTiempo;
 import parqueadero.enumerado.EnumTipoVehiculo;
 import parqueadero.persistencia.builder.VehiculoBuilder;
 import parqueadero.persistencia.entidad.EstadoParqueoEntidad;
@@ -23,6 +24,7 @@ import parqueadero.persistencia.entidad.GestionVehiculoEntidad;
 import parqueadero.persistencia.entidad.RecargoCilindrajeEntidad;
 import parqueadero.persistencia.entidad.TarifaXTipoVehiculoEntidad;
 import parqueadero.persistencia.entidad.TipoVehiculoEntidad;
+import parqueadero.persistencia.entidad.UnidadTiempoEntidad;
 import parqueadero.persistencia.entidad.VehiculoEntidad;
 import parqueadero.repositorio.IRepositorioEstadoParqueo;
 import parqueadero.repositorio.IRepositorioGestionParqueadero;
@@ -30,6 +32,7 @@ import parqueadero.repositorio.IRepositorioRecargo;
 import parqueadero.repositorio.IRepositorioTarifa;
 import parqueadero.repositorio.IRepositorioTipoVehiculo;
 import parqueadero.repositorio.IRepositorioVehiculo;
+import parqueadero.repositorio.IReposotorioUnidadTiempo;
 
 @Service
 @CrossOrigin(origins = "http://localhost:4200")
@@ -40,6 +43,9 @@ public class AdministradorParqueaderoServicio implements IAdministradorParqueade
     
     @Autowired
     IRepositorioTarifa repositorioTarifa;
+    
+    @Autowired
+    IReposotorioUnidadTiempo reposotorioUnidadTiempo;
     
     @Autowired
     IRepositorioGestionParqueadero repositorioGestionParqueadero;
@@ -133,6 +139,14 @@ public class AdministradorParqueaderoServicio implements IAdministradorParqueade
     public List<GestionVehiculo> obtenerVehiculosEnElParqueadero() {
         List<GestionVehiculoEntidad> vehiculosEnParqueadero = StreamSupport.stream(repositorioGestionParqueadero.obtenerVehiculosEnElParqueadero().spliterator(), false).collect(Collectors.toList());
         return vehiculosEnParqueadero.stream().map(VehiculoBuilder::convertirGestionVehiculoADominio).collect(Collectors.toList());
+    }
+
+    @Override
+    public void registrarUnidadTiempo(List<EnumTiempo> listTiempo) {
+        List<UnidadTiempoEntidad> listTiempoEntidad = listTiempo.stream().map(VehiculoBuilder::convertirTiempoAEntidad).collect(Collectors.toList());
+        for (UnidadTiempoEntidad tiempoEntidad: listTiempoEntidad) {
+            reposotorioUnidadTiempo.save(tiempoEntidad);
+        }
     }
 
 }

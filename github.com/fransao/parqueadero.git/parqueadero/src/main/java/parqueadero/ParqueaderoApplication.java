@@ -41,10 +41,19 @@ public class ParqueaderoApplication {
     }
     
     private  void init() {
+        crearUnidadTiempo();
         crearTipoVehiculo();
         crearEstadoParqueo();
         crearTarifaVehiculo();
         crearRecargo();
+    }
+
+    private void crearUnidadTiempo() {
+        List<EnumTiempo> lisTiempo = new ArrayList<>();
+        lisTiempo.add(EnumTiempo.DIA);
+        lisTiempo.add(EnumTiempo.HORA);
+        
+        administradorParqueaderoServicio.registrarUnidadTiempo(lisTiempo);
     }
 
     private void crearRecargo() {

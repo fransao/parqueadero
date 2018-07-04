@@ -8,6 +8,7 @@ import parqueadero.dominio.RecargoCilindraje;
 import parqueadero.dominio.TarifaXTipoVehiculo;
 import parqueadero.dominio.TipoVehiculo;
 import parqueadero.dominio.Vehiculo;
+import parqueadero.enumerado.EnumTiempo;
 import parqueadero.enumerado.EnumTipoVehiculo;
 
 public interface IAdministradorParqueaderoServicio {
@@ -16,6 +17,7 @@ public interface IAdministradorParqueaderoServicio {
     List<RecargoCilindraje> obtenerRecargos();
     RecargoCilindraje obtenerRecargo(Vehiculo vehiculo);
     void registrarRecargo(RecargoCilindraje recargoCilindraje);
+    void registrarUnidadTiempo (List<EnumTiempo> listTiempo);
     void registrarTarifas(List<TarifaXTipoVehiculo> listTarifaVehiculo);
     List<GestionVehiculo> obtenerVehiculosEnElParqueadero();
     

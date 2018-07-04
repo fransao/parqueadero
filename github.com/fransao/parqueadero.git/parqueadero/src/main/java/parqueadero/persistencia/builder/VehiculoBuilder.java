@@ -17,6 +17,7 @@ import parqueadero.persistencia.entidad.RecargoCilindrajeEntidad;
 import parqueadero.persistencia.entidad.TarifaXTipoVehiculoEntidad;
 import parqueadero.persistencia.entidad.TarifaXTipoVehiculoEntidadPK;
 import parqueadero.persistencia.entidad.TipoVehiculoEntidad;
+import parqueadero.persistencia.entidad.UnidadTiempoEntidad;
 import parqueadero.persistencia.entidad.VehiculoEntidad;
 
 public class VehiculoBuilder {
@@ -151,6 +152,14 @@ public class VehiculoBuilder {
         tarifaXTipoVehiculoEntidad.setValor(tarifaXTipoVehiculo.getValor());
         
         return tarifaXTipoVehiculoEntidad;
+    }
+    
+    public static UnidadTiempoEntidad convertirTiempoAEntidad (EnumTiempo tiempo) {
+        UnidadTiempoEntidad tiempoEntidad = new UnidadTiempoEntidad();
+        tiempoEntidad.setUnidadTiempo(tiempo.getTiempo());
+        tiempoEntidad.setNombreUnidadTiempo(tiempo.name());
+        
+        return tiempoEntidad;
     }
 
     private static TarifaXTipoVehiculoEntidadPK convertirTarifaTipoVehiculoAEntidadPK(TarifaXTipoVehiculo tarifaXTipoVehiculo) {
